@@ -1,0 +1,11 @@
+C:\Users\11845\Desktop\CqustRfidSystem\bin\Debug\CqustRfidSystem.exe.config
+C:\Users\11845\Desktop\CqustRfidSystem\bin\Debug\CqustRfidSystem.exe
+C:\Users\11845\Desktop\CqustRfidSystem\bin\Debug\CqustRfidSystem.pdb
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.csproj.AssemblyReference.cache
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.SerialConf.resources
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.Properties.Resources.resources
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.csproj.GenerateResource.cache
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.csproj.CoreCompileInputs.cache
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.exe
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.pdb
+C:\Users\11845\Desktop\CqustRfidSystem\obj\Debug\CqustRfidSystem.SendCard.resources

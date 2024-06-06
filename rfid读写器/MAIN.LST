@@ -1,0 +1,277 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              06/06/2024 20:03:23 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\hex\MAIN.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE MAIN.C LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2) OBJECT(
+                    -..\hex\MAIN.obj)
+
+line level    source
+
+   1          #include "lpcreg.h"
+   2          #include "main.h"
+   3          #include "mfrc522.h"
+   4          #include "12864.h"
+   5          #include <nokia5110.h>
+   6          #include <stdio.h>
+   7          #include <string.h>
+   8          
+   9          #define uchar unsigned char  // 定义无符号字符类型
+  10          #define MAX_LEN 16  // 数据最大长度
+  11          
+  12          uchar Char;  // 定义字符变量Char
+  13          uchar flag;  // 定义标志位变量flag
+  14          uchar received_data[MAX_LEN];  // 存储接收到的数据
+  15          uchar data_index = 0;  // 数据索引
+  16          uchar response_array[16] = {0x63, 0x71, 0x75, 0x73, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+             -0x00, 0x00, 0x23};  // 响应数组
+  17          
+  18          uchar write_ok[16] = {0x6F, 0x6B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+             -0x00, 0x23};  // 响应数组
+  19          
+  20          
+  21          uchar card_id[16] = {0x63, 0x61, 0x72, 0x64, 0x69, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0
+             -x00, 0x23};  // 响应数组
+  22          
+  23          
+  24          
+  25          
+  26          unsigned char g_ucTempbuf[16];
+  27          unsigned char code DefaultKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+  28          uchar i;
+  29          
+  30          
+  31          
+  32          
+  33          //是否读到卡标志 0未读 1读卡
+  34          uchar is_card_read = 0;
+  35          //运行模式标志位 0读卡 1写卡
+  36          uchar run_mode = 0;
+  37          //是否接收到数据
+  38          uchar is_read_data = 0;
+  39          
+  40          void delay1(unsigned int z) {
+  41   1          unsigned int x, y;
+  42   1          for (x = z; x > 0; x--)
+  43   1              for (y = 110; y > 0; y--);
+  44   1      }
+  45          
+  46          // UART发送一个字节函数
+  47          void UART_sendbyte(uchar Byte) {
+  48   1          SBUF = Byte; 
+  49   1          while (TI == 0); 
+  50   1          TI = 0;  
+  51   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              06/06/2024 20:03:23 PAGE 2   
+
+  52          
+  53          //转asc
+  54          uchar nibble_to_ascii(uchar nibble) {
+  55   1          if (nibble < 10) {
+  56   2              return '0' + nibble;
+  57   2          } else {
+  58   2              return 'A' + (nibble - 10);
+  59   2          }
+  60   1      }
+  61          
+  62          
+  63          // 主函数
+  64          void main() {
+  65   1          unsigned char status;
+  66   1          unsigned int temp;
+  67   1      
+  68   1          LCD_init();
+  69   1          LCD_clear();
+  70   1      
+  71   1          InitializeSystem();
+  72   1          PcdReset();
+  73   1          PcdAntennaOff();
+  74   1          PcdAntennaOn();
+  75   1      
+  76   1          while (1) {
+  77   2      
+  78   2        status = PcdRequest(PICC_REQALL, g_ucTempbuf);//寻卡
+  79   2          if (status != MI_OK)
+  80   2          {
+  81   3            continue;
+  82   3          }
+  83   2      
+  84   2      
+  85   2      
+  86   2          
+  87   2          status = PcdAnticoll(g_ucTempbuf);//防冲撞
+  88   2          if (status != MI_OK)
+  89   2          {
+  90   3            continue;
+  91   3          }
+  92   2      
+  93   2          
+  94   2      
+  95   2          for (i = 0; i < 4; i++)
+  96   2          {
+  97   3              card_id[6 + 2*i] = (g_ucTempbuf[i] >> 4) & 0x0F;  // 高4位
+  98   3              card_id[7 + 2*i] = g_ucTempbuf[i] & 0x0F;         // 低4位
+  99   3      
+ 100   3          }
+ 101   2          
+ 102   2          for (i = 0; i < 4; i++) {
+ 103   3              uchar high_nibble = (g_ucTempbuf[i] >> 4) & 0x0F;  // 高4位
+ 104   3              uchar low_nibble = g_ucTempbuf[i] & 0x0F;          // 低4位
+ 105   3              
+ 106   3              card_id[6 + 2*i] = nibble_to_ascii(high_nibble);   // 高4位转换为 ASCII
+ 107   3              card_id[7 + 2*i] = nibble_to_ascii(low_nibble);    // 低4位转换为 ASCII
+ 108   3          }
+ 109   2          
+ 110   2          //卡片
+ 111   2          for (i = 0; i < 16; i++) {
+ 112   3                       UART_sendbyte(card_id[i]) ;
+ 113   3                  }
+C51 COMPILER V9.59.0.0   MAIN                                                              06/06/2024 20:03:23 PAGE 3   
+
+ 114   2          
+ 115   2          status = PcdSelect(g_ucTempbuf);//选定卡片
+ 116   2          if (status != MI_OK)
+ 117   2          {
+ 118   3            continue;
+ 119   3          }
+ 120   2      
+ 121   2          status = PcdAuthState(PICC_AUTHENT1A, 1, DefaultKey, g_ucTempbuf);//验证卡片密码
+ 122   2          if (status != MI_OK)
+ 123   2          {
+ 124   3            continue;
+ 125   3          }
+ 126   2            
+ 127   2          
+ 128   2              
+ 129   2          
+ 130   2                  if (received_data[0] == 'w') { 
+ 131   3                      for (i = 0; i < 10; i++) {
+ 132   4                          response_array[5 + i] = received_data[1 + i];
+ 133   4                          write_ok[2+i]=received_data[1 + i];
+ 134   4                      }
+ 135   3                      status = PcdWrite(2, response_array);  // 写数据
+ 136   3                      if (status != MI_OK) {
+ 137   4                          continue;
+ 138   4                      }
+ 139   3                      //返回成功响应
+ 140   3                      for (i = 0; i < 16; i++) {
+ 141   4                         UART_sendbyte(write_ok[i]) ;
+ 142   4                      }
+ 143   3                      
+ 144   3                  } 
+ 145   2                  else if (received_data[0] == 'r') {
+ 146   3                      status = PcdRead(2, g_ucTempbuf);
+ 147   3                      if (status != MI_OK) {
+ 148   4        
+ 149   4                          continue;
+ 150   4                      }
+ 151   3                        for (i = 0; i < 16; i++) {
+ 152   4                         UART_sendbyte(g_ucTempbuf[i]) ;
+ 153   4                      }
+ 154   3                  
+ 155   3                  }
+ 156   2              
+ 157   2              
+ 158   2      
+ 159   2              /*LED_GREEN = 0;
+ 160   2              delay1(100);
+ 161   2              LED_GREEN = 1;
+ 162   2              delay1(100);
+ 163   2              LED_GREEN = 0;
+ 164   2              delay1(200);
+ 165   2              LED_GREEN = 1;*/
+ 166   2                  
+ 167   2                  
+ 168   2                  
+ 169   2              PcdHalt();
+ 170   2          }
+ 171   1      }
+*** WARNING C280 IN LINE 66 OF MAIN.C: 'temp': unreferenced local variable
+ 172          
+ 173          // 系统初始化
+ 174          void InitializeSystem() {
+C51 COMPILER V9.59.0.0   MAIN                                                              06/06/2024 20:03:23 PAGE 4   
+
+ 175   1              // I/O 端口配置
+ 176   1          P0M1 = 0x0; P0M2 = 0x0;
+ 177   1          P1M1 = 0x0; P1M2 = 0x0;
+ 178   1          P3M1 = 0x0; P3M2 = 0xFF;
+ 179   1          P0 = 0xFF; P1 = 0xFF; P3 = 0xFF; P2 = 0xFF;
+ 180   1      
+ 181   1          // 串口配置
+ 182   1          SCON = 0x50; // 串行通信模式1，8位数据，允许接收
+ 183   1      
+ 184   1          // 定时器配置
+ 185   1          TMOD = 0x20; // T1为方式2（8位自动重装）
+ 186   1      
+ 187   1          // 设置定时器初值
+ 188   1          TH1 = 0xFA;  // 设置波特率为4800bps
+ 189   1          TL1 = 0xFA;
+ 190   1      
+ 191   1          // 启动定时器1
+ 192   1          TR1 = 1;    // 启动定时器1
+ 193   1      
+ 194   1          // 中断配置
+ 195   1          ES = 1;      // 允许串行中断
+ 196   1          EA = 1;      // 开启总中断
+ 197   1      
+ 198   1          // 设置标志
+ 199   1          TI = 1;
+ 200   1        
+ 201   1         
+ 202   1            /*P0M1 = 0x0; P0M2 = 0x0;
+ 203   1        P1M1 = 0x0; P1M2 = 0x0;
+ 204   1        P3M1 = 0x0; P3M2 = 0xFF;
+ 205   1        P0 = 0xFF; P1 = 0xFF; P3 = 0xFF; P2 = 0xFF;
+ 206   1      
+ 207   1        TMOD = 0x21;       //设T0为方式1，GATE=1；
+ 208   1        SCON = 0x50;
+ 209   1        TH1 = 0xFA;          //波特率为4800bps
+ 210   1        TL1 = 0xFA;
+ 211   1        TH0 = 0;
+ 212   1        TL0 = 0;
+ 213   1        TR0 = 1;
+ 214   1        ET0 = 1;             //允许T0中断
+ 215   1        TR1 = 1;         //开启定时器
+ 216   1        TI = 1;
+ 217   1        EA = 1;         //开启总中断
+ 218   1      
+ 219   1        ES = 1;
+ 220   1        RI = 1;
+ 221   1      
+ 222   1        */
+ 223   1      }
+ 224          
+ 225          // UART接收中断服务函数
+ 226          void UART_R() interrupt 4 {
+ 227   1          if (RI == 1) {  // 如果接收到数据
+ 228   2              Char = SBUF;  // 读取接收到的数据到Char变量
+ 229   2      
+ 230   2              RI = 0;  // 清除接收标志位
+ 231   2              if (Char == '#') {  // 检测到结束符
+ 232   3                  is_read_data = 1;
+ 233   3      
+ 234   3                  data_index = 0;  
+ 235   3              } else {
+ 236   3                  if (data_index <= MAX_LEN - 1) {  // 防止数组越界
+C51 COMPILER V9.59.0.0   MAIN                                                              06/06/2024 20:03:23 PAGE 5   
+
+ 237   4                      received_data[data_index++] = Char;
+ 238   4                  }
+ 239   3              }
+ 240   2          }
+ 241   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    730    ----
+   CONSTANT SIZE    =      6    ----
+   XDATA SIZE       =     87       4
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
