@@ -1,0 +1,5 @@
+"..\hex\MAIN.obj",
+"..\hex\RC522.obj",
+"..\hex\5110-51.obj" 
+TO "..\hex\TEST522" 
+PRINT(".\TEST522.m51") RAMSIZE(256) 
