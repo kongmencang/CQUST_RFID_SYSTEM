@@ -1,3 +1,5 @@
+import time
+
 from conflig import MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE
 from mysql.CqustCardSystemMysql import CqustCardSystemMysql
 
@@ -7,8 +9,10 @@ mysql = CqustCardSystemMysql(MYSQL_USERNAME,MYSQL_PASSWORD,MYSQL_DATABASE,MYSQL_
 sno="2023520868"
 card_id= "429E40E7"
 
-ans=mysql.get_sno_by_card_id_from_rfid_info(card_id)
-print(ans)
+# # a=mysql.get_techer_id_and_course_id_by_time_and_scheduling_id('2','1253')
+# a=mysql.get_stu_scheduling_id_by_sno("")
+# print(a)
 
-ans=mysql.get_card_id_by_sno_from_rfid_info(sno)
-print(ans)
+# print(mysql.get_stu_is_attendence_info_by_time(sno, '2024-06-15 20:06:00', '2024-06-15 20:06:28'))
+
+

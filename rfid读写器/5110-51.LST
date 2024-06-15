@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 1   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE 5110_51
-OBJECT MODULE PLACED IN ..\hex\5110-51.obj
+OBJECT MODULE PLACED IN ..\..\hex\5110-51.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 5110-51.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2) OBJE
-                    -CT(..\hex\5110-51.obj)
+                    -CT(..\..\hex\5110-51.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52          0x0F,0x08,0x04,0x04,0x0A,0x04,0x03,0x00,0x07,0x08,0x0E,0x00,/*"凯",1*/
   53          
   54          0xFC,0x46,0x45,0x44,0xFC,0x10,0x08,0x27,0xC4,0x04,0xFC,0x00,
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 2   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 2   
 
   55          0x0F,0x04,0x04,0x04,0x0F,0x00,0x00,0x00,0x08,0x08,0x07,0x00,/*"的",2*/
   56          
@@ -126,7 +126,7 @@ line level    source
  114          0x40,0x44,0x44,0x44,0xFF,0x44,0x44,0x44,0x7D,0x42,0xC0,0x00,
  115          0x00,0x00,0x00,0x00,0x0F,0x00,0x00,0x00,0x04,0x04,0x03,0x00,/*"书",22*/
  116          
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 3   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 3   
 
  117          0x12,0x12,0xEA,0xA6,0xA2,0xBF,0xA2,0xA6,0xEA,0x12,0x12,0x00,
  118          0x08,0x08,0x0B,0x0A,0x0A,0x0A,0x0A,0x0A,0x0B,0x08,0x08,0x00,/*"查",23*/
@@ -190,7 +190,7 @@ line level    source
  176   1        LCD_write_byte(0x21,0);//初始化Lcd,功能设定使用扩充指令
  177   1        LCD_write_byte(0xCD,0);//设定液晶偏置电压
  178   1        LCD_write_byte(0x20,0);//使用基本指令
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 4   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 4   
 
  179   1        LCD_write_byte(0x0C,0);//设定显示模式，正常显示,普通显示
  180   1      }
@@ -254,7 +254,7 @@ line level    source
  238   1        
  239   1        LCD_set_XY(row*6, page);// 列，页 
  240   1        for(i=0; i<12;i++) 
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 5   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 5   
 
  241   1        {
  242   2          LCD_write_byte(hanzi[c*24+i],1); 
@@ -318,7 +318,7 @@ line level    source
  300   1        unsigned char first,second,num,i,yule[3];
  301   1      
  302   1          LCD_write_hanzi(0,4,24);  
-C51 COMPILER V9.59.0.0   5110_51                                                           06/06/2024 20:03:23 PAGE 6   
+C51 COMPILER V9.59.0.0   5110_51                                                           06/15/2024 01:13:03 PAGE 6   
 
  303   1        LCD_write_hanzi(2,4,25);  
  304   1          LCD_write_shu(4,4,17); 

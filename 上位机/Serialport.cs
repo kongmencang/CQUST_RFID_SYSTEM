@@ -10,7 +10,7 @@ namespace CqustRfidSystem
 {
     internal class Serialport
     {
-        public static string PortName="COM18";
+        public static string PortName="COM10";
         public static int BaudRate = 4800;
         public static int DataBits = 8;
         public static int ReceivedBytesThreshold = 1;

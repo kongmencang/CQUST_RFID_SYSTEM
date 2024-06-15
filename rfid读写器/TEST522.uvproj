@@ -45,7 +45,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>..\hex\</OutputDirectory>
+          <OutputDirectory>..\..\hex\</OutputDirectory>
           <OutputName>TEST522</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
