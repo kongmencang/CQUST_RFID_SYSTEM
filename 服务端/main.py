@@ -16,3 +16,4 @@ card_id= "429E40E7"
 # print(mysql.get_stu_is_attendence_info_by_time(sno, '2024-06-15 20:06:00', '2024-06-15 20:06:28'))
 
 
+# print(mysql.get_all_school_name_from_school_info())

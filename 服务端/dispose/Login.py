@@ -23,7 +23,7 @@ class Login(object):
         else:
             #账号密码错误
             is_login_success = mysql_cqust_rfid.get_user_id_and_user_pwd_is_matching(user_id=user_id, user_pwd=user_pwd)
-            if not is_login_success:
+            if not is_login_success:#登录失败
                 dic["flag"]=FLAG_LOGIN_ERR
                 if user_id not in cls.__error_num_dic:
                     cls.__error_num_dic[user_id]=1
@@ -40,7 +40,14 @@ class Login(object):
                     threading.Timer(5, lambda:(mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_NORMAL), print("解封用户：{} ".format(user_id)) )).start()
 
             else:
+                user_name=mysql_cqust_rfid.get_user_name_by_user_id(user_id=user_id)
+                user_power=mysql_cqust_rfid.get_user_power_by_user_id(user_id=user_id)
                 dic["flag"]=FLAG_OK
+                dic["data"]={}
+                dic["data"]["user_name"]=user_name
+                dic["data"]["user_power"]=user_power
+                #获取用户名和权限
+
                 print("用户: {} 登录成功".format(user_id))
 
         return dic

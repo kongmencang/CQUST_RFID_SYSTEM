@@ -120,6 +120,9 @@ class BaseMysql(object):
         sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
         return self.base_control_sql(sql,params=values)
 
+    def base_get_a_table_all_data(self,table_name):
+        sql = f"SELECT * FROM {table_name}"
+        return self.base_select_sql(sql,params=None)
 
 if __name__ == '__main__':
     mysql = BaseMysql(MYSQL_USERNAME,MYSQL_PASSWORD,MYSQL_DATABASE,MYSQL_HOST)

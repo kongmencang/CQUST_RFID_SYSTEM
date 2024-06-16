@@ -154,6 +154,28 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
 
+    def get_user_name_by_user_id(self,user_id):
+        """
+        查找用户姓名
+        :param user_id:
+        :return:
+        """
+        result = self.base_get_attribute_value_by_table_and_one_condition(table_name=MYSQL_TEACHER_INFO_TABLE,attribute_name="teacher_name",condition_name="teacher_id",condition_value=user_id)
+        if result:
+            return result[0][0]
+        else:
+            return None
+    def get_user_power_by_user_id(self,user_id):
+        """
+        查找用户权限
+        :param user_id:
+        :return:
+        """
+        result = self.base_get_attribute_value_by_table_and_one_condition(table_name=MYSQL_TEACHER_INFO_TABLE,attribute_name="teacher_power",condition_name="teacher_id",condition_value=user_id)
+        if result:
+            return result[0][0]
+        else:
+            return None
     """
     以下内容跟学生信息相关
     """
@@ -243,3 +265,24 @@ class CqustCardSystemMysql(BaseMysql):
             return result
         else:
             return None
+
+    """
+    下面是信息综合查询相关
+    """
+    def get_all_school_name_from_school_info(self):
+        """
+        查询所有的学院名
+        :return: 字典列表[{school_id:school_name},{school_id:school_name}]
+        """
+        result=self.base_get_a_table_all_data(table_name=MYSQL_SCHOOL_INFO_TABLE)
+        ans =[]
+        if result:
+            for i in result:
+                school_id=i[0]
+                school_name=i[1]
+                ans.append({school_id:school_name})
+
+            return ans
+        else:
+            return None
+        pass

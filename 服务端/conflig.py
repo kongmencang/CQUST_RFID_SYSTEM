@@ -29,6 +29,11 @@ MYSQL_STU_COURSE_SELECTION_INFO_TABLE='stu_course_selection_info'
 MYSQL_SCHEDULING_INFO_TABLE = 'scheduling_info'
 #考勤信息表
 MYSQL_ATTENDENCE_INFO_TABLE = 'attendance_info'
+#教师信息表
+MYSQL_TEACHER_INFO_TABLE = 'teacher_info'
+#学院信息表
+MYSQL_SCHOOL_INFO_TABLE = 'school_info'
+
 """
 用户账号状态
 """
@@ -42,7 +47,7 @@ USER_STATE_PENDING = '0'
 状态码 最好不要改它
 """
 FLAG_OK= "111111" #表示接口返回一切正常
-
+FLAG_ERROR ="000000" #通用错误码
 # 用户登录相关
 FLAG_USER_NOT_EXIST= "000001" #表示登录用户名不存在
 FLAG_LOGIN_ERR="000002"# 表示登录用户名不存在
