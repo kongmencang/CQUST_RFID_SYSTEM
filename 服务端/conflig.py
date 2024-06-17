@@ -33,7 +33,12 @@ MYSQL_ATTENDENCE_INFO_TABLE = 'attendance_info'
 MYSQL_TEACHER_INFO_TABLE = 'teacher_info'
 #学院信息表
 MYSQL_SCHOOL_INFO_TABLE = 'school_info'
-
+#系信息表
+MYSQL_DEPARTMENT_INFO_TABLE = 'department_info'
+#专业信息表
+MYSQL_SUBJECT_INFO_TABLE = 'subject_info'
+#班级信息表
+MYSQL_CLASS_INFO_TABLE = 'class_info'
 """
 用户账号状态
 """
@@ -50,7 +55,7 @@ FLAG_OK= "111111" #表示接口返回一切正常
 FLAG_ERROR ="000000" #通用错误码
 # 用户登录相关
 FLAG_USER_NOT_EXIST= "000001" #表示登录用户名不存在
-FLAG_LOGIN_ERR="000002"# 表示登录用户名不存在
+FLAG_LOGIN_ERR="000002"# 表示登录失败
 FLAG_LOGIN_ERR_MAX ="000003"# 表示错误次数过多 暂时禁止登录
 
 

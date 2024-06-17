@@ -280,9 +280,133 @@ class CqustCardSystemMysql(BaseMysql):
             for i in result:
                 school_id=i[0]
                 school_name=i[1]
-                ans.append({school_id:school_name})
-
+                ans.append({"school_id":school_id,"school_name":school_name})
             return ans
         else:
             return None
-        pass
+
+
+    def get_all_department_name_from_department_info(self):
+        """
+        查询所有的系名
+        :return: 字典列表[{"department_id": department_id, "department_name": department_name}]
+        """
+        result = self.base_get_a_table_all_data(table_name=MYSQL_DEPARTMENT_INFO_TABLE  )
+        ans = []
+        if result:
+            for i in result:
+                department_id = i[0]
+                department_name = i[1]
+                ans.append({"department_id": department_id, "department_name": department_name})
+            return ans
+        else:
+            return None
+    def get_department_name_from_department_info_by_argument(self,argument):
+        """
+        根据参数字典进行查询
+        :param argument:  {"school_id": school_id , "department_id": department_id}
+        :return 字典列表[{"department_id": department_id, "department_name": department_name}
+        """
+        sql = f"select department_id, department_name from {MYSQL_DEPARTMENT_INFO_TABLE} where "
+        #拼接查询语句
+        for i in argument.keys():
+            sql += i + f" = %({i})s "
+        result =self.base_select_sql(sql,argument)
+        ans = []
+        if result:
+            for i in result:
+                department_id = i[0]
+                department_name = i[1]
+                ans.append({"department_id": department_id, "department_name": department_name})
+            return ans
+        else:
+            return None
+
+
+
+
+    def get_all_subject_name_from_subject_info(self):
+        """
+        查询所有的专业名
+        :return: 字典列表
+        """
+        result = self.base_get_a_table_all_data(table_name=MYSQL_SUBJECT_INFO_TABLE)
+        ans = []
+        if result:
+            for i in result:
+                subject_id = i[0]
+                subject_name = i[1]
+                ans.append({"subject_id": subject_id, "subject_name": subject_name})
+            return ans
+        else:
+            return None
+    def get_subject_name_from_subject_info_by_argument(self,argument):
+        """
+        根据参数字典进行查询
+        :param argument:{‘argument_name’：‘argument_value’}
+        :return 字典列表
+        """
+        sql = f"select subject_id, subject_name from {MYSQL_SUBJECT_INFO_TABLE} where "
+        #拼接查询语句
+        for i in argument.keys():
+            sql += i + f" = %({i})s "
+        result =self.base_select_sql(sql,argument)
+        ans = []
+        if result:
+            for i in result:
+                subject_id = i[0]
+                subject_name = i[1]
+                ans.append({"subject_id": subject_id, "subject_name": subject_name})
+            return ans
+        else:
+            return None
+    def get_class_name_from_class_info_by_argument(self,argument):
+        """
+        根据参数字典进行查询
+        :param argument:{‘argument_name’：‘argument_value’}
+        :return 字典列表
+        """
+        sql = f"select class_id, class_name from {MYSQL_CLASS_INFO_TABLE} where "
+        #拼接查询语句
+        for i in argument.keys():
+            sql += i + f" = %({i})s "
+        result =self.base_select_sql(sql,argument)
+        ans = []
+        if result:
+            for i in result:
+                class_id = i[0]
+                class_name = i[1]
+                ans.append({"class_id": class_id, "class_name": class_name})
+            return ans
+        else:
+            return None
+
+    def get_not_have_card_student_by_class_id(self,argument):
+        """
+        获取没有卡的学生的id，根据班级编号
+        :param class_id:
+        :return:
+        """
+        sql=f"""
+        SELECT si.sno  ,si.name
+        FROM {MYSQL_STU_INFO_TABLE} si  
+        LEFT JOIN rfid_info ri ON si.sno = ri.sno  
+        WHERE ri.sno IS NULL and si.class_id =%(class_id)s ;
+        """
+
+        result = self.base_select_sql(sql,argument)
+        ans = []
+        if result:
+            for i in result:
+                stu_sno = i[0]
+                stu_name= i[1]
+                ans.append({"stu_sno": stu_sno, "class_name": stu_name})
+            return ans
+        else:
+            return None
+
+if __name__ == '__main__':
+    # a={"school_id":"0100000000"}
+    mysql_cqust_rfid = CqustCardSystemMysql(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST)
+
+    print(mysql_cqust_rfid.get_not_have_card_student_by_class_id({"class_id":"0101010002"}))

@@ -17,3 +17,5 @@ card_id= "429E40E7"
 
 
 # print(mysql.get_all_school_name_from_school_info())
+
+
