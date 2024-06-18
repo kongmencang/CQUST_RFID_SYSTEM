@@ -35,6 +35,8 @@
             this.BaudRate = new System.Windows.Forms.ComboBox();
             this.commit = new System.Windows.Forms.Button();
             this.Serialport1 = new System.IO.Ports.SerialPort(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // p_lable
@@ -112,7 +114,7 @@
             this.commit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(151)))), ((int)(((byte)(226)))));
             this.commit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.commit.Font = new System.Drawing.Font("宋体", 12F);
-            this.commit.Location = new System.Drawing.Point(68, 126);
+            this.commit.Location = new System.Drawing.Point(68, 159);
             this.commit.Name = "commit";
             this.commit.Size = new System.Drawing.Size(75, 23);
             this.commit.TabIndex = 35;
@@ -120,11 +122,32 @@
             this.commit.UseVisualStyleBackColor = false;
             this.commit.Click += new System.EventHandler(this.commit_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("宋体", 15F);
+            this.label1.Location = new System.Drawing.Point(25, 127);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 20);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "用途";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(117, 126);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(93, 21);
+            this.textBox1.TabIndex = 37;
+            // 
             // SerialConf
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(221, 189);
+            this.ClientSize = new System.Drawing.Size(221, 236);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.commit);
             this.Controls.Add(this.BaudRate);
             this.Controls.Add(this.PortName);
@@ -146,6 +169,8 @@
         private System.Windows.Forms.ComboBox BaudRate;
         private System.Windows.Forms.Button commit;
         private System.IO.Ports.SerialPort Serialport1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

@@ -76,7 +76,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialport.cs" />
+    <Compile Include="Tool\Serialport.cs" />
     <Compile Include="share_info.cs" />
     <Compile Include="Tool\Httpx.cs" />
     <Compile Include="Tool\MessageBoxTimeout.cs" />
