@@ -5,7 +5,6 @@ ser = serial.Serial('COM18', 4800, timeout=1)
 
 def send_data(data):
     ser.write(data)
-
 def receive_data():
     return ser.read(16)
 def main():
