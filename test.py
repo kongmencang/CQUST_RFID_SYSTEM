@@ -8,7 +8,6 @@ def send_data(data):
 
 def receive_data():
     return ser.read(16)
-
 def main():
     try:
         # 发送数据示例
