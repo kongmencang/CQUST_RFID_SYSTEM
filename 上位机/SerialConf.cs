@@ -21,8 +21,7 @@ namespace CqustRfidSystem
 
         private void commit_Click(object sender, EventArgs e)
         {
-            Serialport.PortName = PortName.Text;
-            Serialport.BaudRate = int.Parse(BaudRate.Text);
+    
             MessageBox.Show("设置成功", "提示");
             this.Close();
 
@@ -37,8 +36,7 @@ namespace CqustRfidSystem
                 PortName.SelectedIndex = 0;
 
             }
-            PortName.Text = Serialport.PortName;
-            BaudRate.Text = Serialport.BaudRate.ToString();
+
         }
     }
 }

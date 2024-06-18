@@ -23,6 +23,8 @@ class RfidCard:
 
         #这张卡片已经有人，且卡片归属者不属于待发卡学生
         if is_card_exist:
+            sno=mysql_cqust_rfid.get_sno_by_card_id_from_rfid_info(card_id=card_id)
+            stu_name = mysql_cqust_rfid.get_stu_name_by_sno(sno=sno)
             dic["flag"]=FLAG_CARD_IS_USING
             dic["data"]["name"] = stu_name
         #这个学生已经有卡了

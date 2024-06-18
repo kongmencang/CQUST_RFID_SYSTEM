@@ -400,7 +400,7 @@ class CqustCardSystemMysql(BaseMysql):
             for i in result:
                 stu_sno = i[0]
                 stu_name= i[1]
-                ans.append({"stu_sno": stu_sno, "class_name": stu_name})
+                ans.append({"student_id": stu_sno, "student_name": stu_name})
             return ans
         else:
             return None
