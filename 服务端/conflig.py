@@ -70,8 +70,8 @@ FLAG_NOT_STUDENT="000007" #表示学生不存在
 #考勤相关
 FLAG_NOT_IN_ATTENDANCE_TIME = '000008'# 表示不在考勤时间内
 FLAG_THIS_TIME_STUDENT_NOT_COURSE='000009' #表示学生该时间没有课
-FLAG_ADD_ATTENDANCE_NOT_SECCESS='000010'
-FLAG_THIS_TIME_IS_ATTENDENCE='000011'
+FLAG_ADD_ATTENDANCE_NOT_SECCESS='000010' #打卡失败
+FLAG_THIS_TIME_IS_ATTENDENCE='000011' #这个时间段已经打过卡了
 """
 课程时间相关
 """
@@ -85,13 +85,21 @@ COURSE_TIMES = [
     ("18:00:00", "19:40:00"),
     ("21:40:00", "21:40:00"),#第六节课开始结束时间
 ]
-
+COURSE_TIMES = [
+    ("08:00:00", "10:10:00"), #第一节课开始结束时间
+    ("10:30:00", "12:10:00"),
+    ("14:00:00", "15:40:00"),
+    ("16:00:00", "17:40:00"),
+    ("20:20:00", "21:40:00"),
+    ("21:40:00", "21:40:00"),#第六节课开始结束时间
+]
 # 缺勤时间（分钟）
 COURSE_ABSENCE_TIME = 15
 # 迟到时间
 COURSE_LATE_TIME = 5
 #打卡开放时间
 COURSE_AGAIN_TIME = 5
-
+# 打卡关闭时间
+COURSE_ABSENCE_TIME = 20
 
 TERM_TIME= "202301"

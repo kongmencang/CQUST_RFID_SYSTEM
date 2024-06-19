@@ -38,7 +38,17 @@ def add_cards():
         result = RfidCard.add_card(sno=sno, card_id=card_id)
 
         return jsonify(result),200
+@app.route('/add_attendance', methods=['POST'])
+def add_attendance():
+    if request.method == 'POST':
+        sno = request.json.get("sno")
+        time_str = request.json.get("time_str")
+        place=request.json.get("place")
+        if not time_str or not sno or not place:
+            return jsonify({"flag": FLAG_ERROR}), 200
+        result = Attendance.attendance(sno=sno, place=place, time_str=time_str)
 
+        return jsonify(result),200
 
 
 @app.route('/get_info', methods=['POST'])

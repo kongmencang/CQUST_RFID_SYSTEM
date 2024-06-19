@@ -49,13 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="dispose\Login.cs" />
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Attendence.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="Attendence.Designer.cs">
+      <DependentUpon>Attendence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Attendence_info_manage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Attendence_info_manage.Designer.cs">
+      <DependentUpon>Attendence_info_manage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config.cs" />
+    <Compile Include="logincs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="logincs.Designer.cs">
+      <DependentUpon>logincs.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -76,12 +87,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tool\Serialport.cs" />
     <Compile Include="share_info.cs" />
     <Compile Include="Tool\Httpx.cs" />
     <Compile Include="Tool\MessageBoxTimeout.cs" />
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="Tool\Serialport.cs" />
+    <EmbeddedResource Include="Attendence.resx">
+      <DependentUpon>Attendence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Attendence_info_manage.resx">
+      <DependentUpon>Attendence_info_manage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="logincs.resx">
+      <DependentUpon>logincs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SendCard.resx">
       <DependentUpon>SendCard.cs</DependentUpon>
@@ -94,7 +111,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -108,26 +124,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\eye.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\eye1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\闭眼.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\闭眼1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\开眼.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\开眼1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\logo.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

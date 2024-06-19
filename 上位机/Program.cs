@@ -16,7 +16,7 @@ namespace CqustRfidSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SendCard());
+            Application.Run(new Attendence());
         }
     }
 }

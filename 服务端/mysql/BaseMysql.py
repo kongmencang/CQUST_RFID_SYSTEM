@@ -24,7 +24,6 @@ class BaseMysql(object):
         con = self.base_connect()
         if not con:
             return []
-
         try:
             con.execute(sql,params)
             rows = con.fetchall()
@@ -123,6 +122,18 @@ class BaseMysql(object):
     def base_get_a_table_all_data(self,table_name):
         sql = f"SELECT * FROM {table_name}"
         return self.base_select_sql(sql,params=None)
+
+    def build_query_with_arguments(self,base_sql, arguments):
+        """
+        根据参数字典构建SQL查询
+        :param base_sql: 基础SQL查询语句
+        :param arguments: 参数字典
+        :return: 拼接好的SQL查询语句
+        """
+        conditions = [f"{key} = %({key})s" for key in arguments.keys()]
+        if conditions:
+            return base_sql + " AND ".join(conditions)
+        return base_sql
 
 if __name__ == '__main__':
     mysql = BaseMysql(MYSQL_USERNAME,MYSQL_PASSWORD,MYSQL_DATABASE,MYSQL_HOST)

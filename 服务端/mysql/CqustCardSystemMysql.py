@@ -191,7 +191,7 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
 
-    def get_stu_scheduling_id_by_sno(self,sno):
+    def get_stu_course_id_id_by_sno(self,sno):
         """
         获取学生的选课id
         :param sno:学号
@@ -199,10 +199,11 @@ class CqustCardSystemMysql(BaseMysql):
         """
         # 选课id
         sql=f"""
-        select scheduling_id from {MYSQL_STU_COURSE_SELECTION_INFO_TABLE} where sno = %s
+        select course_id from {MYSQL_STU_COURSE_SELECTION_INFO_TABLE} where sno = %s
         """
         param=(sno,)
         result=self.base_select_sql(sql,param)
+        print(result)
         if result:
             ans=[]
             for i in result:
@@ -213,23 +214,24 @@ class CqustCardSystemMysql(BaseMysql):
     """
     课程相关
     """
-    def get_techer_id_and_course_id_by_time_and_scheduling_id(self,course_section,scheduling_id,place):
+    def get_techer_id_and_scheduling_id_by_time_and_course_id_and_place(self,course_section,course_id,place):
         """
-        根据排课节次和排课编号获取对应那节课的教师id和课程id
+        根据排课节次和排课编号获取对应那节课的教师id
         :param course_section: 排课节次
         :param scheduling_id:课程id
         :return:{教师id："",课程id:""}
         """
         weekday =  datetime.now().weekday() + 1
-        params = (TERM_TIME,scheduling_id, course_section,place)
+        params = (TERM_TIME,course_id, course_section,place)
         sql= f"""
-        select course_id ,teacher_id from {MYSQL_SCHEDULING_INFO_TABLE} 
-        where term_time = %s and weekday = {weekday} and scheduling_id=%s
+        select teacher_id ,scheduling_id from {MYSQL_SCHEDULING_INFO_TABLE} 
+        where term_time = %s and weekday = {weekday} and course_id=%s
         and course_section = %s and state = '1' and place=%s
         """
         result = self.base_select_sql(sql,params)
+
         if result:
-            return {'course_id':result[0][0],'teacher_id':result[0][1]}
+            return {'teacher_id':result[0][0],"scheduling_id":result[0][1]}
         return None
 
     """
@@ -269,29 +271,29 @@ class CqustCardSystemMysql(BaseMysql):
     """
     下面是信息综合查询相关
     """
+
     def get_all_school_name_from_school_info(self):
         """
         查询所有的学院名
         :return: 字典列表[{school_id:school_name},{school_id:school_name}]
         """
-        result=self.base_get_a_table_all_data(table_name=MYSQL_SCHOOL_INFO_TABLE)
-        ans =[]
+        result = self.base_get_a_table_all_data(table_name=MYSQL_SCHOOL_INFO_TABLE)
+        ans = []
         if result:
             for i in result:
-                school_id=i[0]
-                school_name=i[1]
-                ans.append({"school_id":school_id,"school_name":school_name})
+                school_id = i[0]
+                school_name = i[1]
+                ans.append({"school_id": school_id, "school_name": school_name})
             return ans
         else:
             return None
-
 
     def get_all_department_name_from_department_info(self):
         """
         查询所有的系名
         :return: 字典列表[{"department_id": department_id, "department_name": department_name}]
         """
-        result = self.base_get_a_table_all_data(table_name=MYSQL_DEPARTMENT_INFO_TABLE  )
+        result = self.base_get_a_table_all_data(table_name=MYSQL_DEPARTMENT_INFO_TABLE)
         ans = []
         if result:
             for i in result:
@@ -301,17 +303,18 @@ class CqustCardSystemMysql(BaseMysql):
             return ans
         else:
             return None
-    def get_department_name_from_department_info_by_argument(self,argument):
+
+
+
+    def get_department_name_from_department_info_by_argument(self, argument):
         """
         根据参数字典进行查询
-        :param argument:  {"school_id": school_id , "department_id": department_id}
-        :return 字典列表[{"department_id": department_id, "department_name": department_name}
+        :param argument: {"school_id": school_id , "department_id": department_id}
+        :return 字典列表[{"department_id": department_id, "department_name": department_name}]
         """
-        sql = f"select department_id, department_name from {MYSQL_DEPARTMENT_INFO_TABLE} where "
-        #拼接查询语句
-        for i in argument.keys():
-            sql += i + f" = %({i})s "
-        result =self.base_select_sql(sql,argument)
+        base_sql = f"SELECT department_id, department_name FROM {MYSQL_DEPARTMENT_INFO_TABLE} WHERE "
+        sql = self.build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
         ans = []
         if result:
             for i in result:
@@ -321,9 +324,6 @@ class CqustCardSystemMysql(BaseMysql):
             return ans
         else:
             return None
-
-
-
 
     def get_all_subject_name_from_subject_info(self):
         """
@@ -340,17 +340,16 @@ class CqustCardSystemMysql(BaseMysql):
             return ans
         else:
             return None
-    def get_subject_name_from_subject_info_by_argument(self,argument):
+
+    def get_subject_name_from_subject_info_by_argument(self, argument):
         """
         根据参数字典进行查询
-        :param argument:{‘argument_name’：‘argument_value’}
+        :param argument: {‘argument_name’：‘argument_value’}
         :return 字典列表
         """
-        sql = f"select subject_id, subject_name from {MYSQL_SUBJECT_INFO_TABLE} where "
-        #拼接查询语句
-        for i in argument.keys():
-            sql += i + f" = %({i})s "
-        result =self.base_select_sql(sql,argument)
+        base_sql = f"SELECT subject_id, subject_name FROM {MYSQL_SUBJECT_INFO_TABLE} WHERE "
+        sql = self.build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
         ans = []
         if result:
             for i in result:
@@ -360,17 +359,16 @@ class CqustCardSystemMysql(BaseMysql):
             return ans
         else:
             return None
-    def get_class_name_from_class_info_by_argument(self,argument):
+
+    def get_class_name_from_class_info_by_argument(self, argument):
         """
         根据参数字典进行查询
-        :param argument:{‘argument_name’：‘argument_value’}
+        :param argument: {‘argument_name’：‘argument_value’}
         :return 字典列表
         """
-        sql = f"select class_id, class_name from {MYSQL_CLASS_INFO_TABLE} where "
-        #拼接查询语句
-        for i in argument.keys():
-            sql += i + f" = %({i})s "
-        result =self.base_select_sql(sql,argument)
+        base_sql = f"SELECT class_id, class_name FROM {MYSQL_CLASS_INFO_TABLE} WHERE "
+        sql = self.build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
         ans = []
         if result:
             for i in result:
@@ -381,32 +379,31 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
 
-    def get_not_have_card_student_by_class_id(self,argument):
+    def get_not_have_card_student_by_class_id(self, argument):
         """
         获取没有卡的学生的id，根据班级编号
         :param class_id:
         :return:
         """
-        sql=f"""
-        SELECT si.sno  ,si.name
-        FROM {MYSQL_STU_INFO_TABLE} si  
-        LEFT JOIN rfid_info ri ON si.sno = ri.sno  
-        WHERE ri.sno IS NULL and si.class_id =%(class_id)s ;
+        sql = f"""
+        SELECT si.sno, si.name
+        FROM {MYSQL_STU_INFO_TABLE} si
+        LEFT JOIN rfid_info ri ON si.sno = ri.sno
+        WHERE ri.sno IS NULL AND si.class_id = %(class_id)s;
         """
-
-        result = self.base_select_sql(sql,argument)
+        result = self.base_select_sql(sql, argument)
         ans = []
         if result:
             for i in result:
                 stu_sno = i[0]
-                stu_name= i[1]
+                stu_name = i[1]
                 ans.append({"student_id": stu_sno, "student_name": stu_name})
             return ans
         else:
             return None
 
+
 if __name__ == '__main__':
     # a={"school_id":"0100000000"}
     mysql_cqust_rfid = CqustCardSystemMysql(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST)
 
-    print(mysql_cqust_rfid.get_not_have_card_student_by_class_id({"class_id":"0101010002"}))

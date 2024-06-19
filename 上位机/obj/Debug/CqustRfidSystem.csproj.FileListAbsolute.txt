@@ -20,7 +20,7 @@ C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.cs
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.csproj.CoreCompileInputs.cache
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.exe
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.pdb
-C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.LoginForm.resources
 C:\Users\11845\Desktop\自动识别项目\上位机\bin\Debug\Newtonsoft.Json.dll
-C:\Users\11845\Desktop\自动识别项目\上位机\bin\Debug\Newtonsoft.Json.xml
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.csproj.CopyComplete
+C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.logincs.resources
+C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.Attendence.resources

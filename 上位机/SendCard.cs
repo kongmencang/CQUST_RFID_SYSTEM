@@ -22,7 +22,8 @@ namespace CqustRfidSystem
         string read_card_id_flag="0";
         //成功表示
         string read_card_ok_flag="0";
-  
+
+
 
         private void requirt_add_card(string card_id, string sno)
         {
@@ -95,6 +96,7 @@ namespace CqustRfidSystem
         {
             if (share_info.user_power == "0")
             {
+              
                 RequestData("school_info", comboBox_school_name, share_info.user_manage_school, "school_name", "school_id");
             }
             port.PortName = "COM10";
@@ -115,10 +117,13 @@ namespace CqustRfidSystem
                     { GetArgumentKey(infoName), GetArgumentValue(infoName) }
                 };
             }
+    
 
             var response = Httpx.Post(get_info_url, postData);
+           
             if (response != null && response.TryGetValue("flag", out object flagValue))
             {
+           
                 string flag = flagValue.ToString();
                 if (flag == Config.FLAG_ERROR)
                 {
@@ -334,6 +339,7 @@ namespace CqustRfidSystem
                 string send_data = "w" + comboBox_student_id.Text.Trim() + "0000#";
                 requirt_add_card(card_id.Text, comboBox_student_id.Text);
                 Serialport.send_string_to_byte_data(port, send_data);
+                card_id.Text = "";
             }
             else {
                 MessageBox.Show("请先获取学号/卡号", "提示");
@@ -375,10 +381,9 @@ namespace CqustRfidSystem
                 }
                 else if (data.StartsWith("ok") && data[15] == '#')
                 {
-                    
+                   
                     string read_card_ok = data.Substring(2, 10);
        
-
                     this.buffer.Clear();
                     if (read_card_ok.Equals(read_card_ok_flag))
                     {
@@ -387,11 +392,10 @@ namespace CqustRfidSystem
                     read_card_id_flag = read_card_ok;
 
                     log_text.Invoke((MethodInvoker)delegate
-                    {
-
-                    
+                    {               
                         log_text.SelectionColor = Color.Green;
                         log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")}Rfid_reader: 成功与：{read_card_ok}"+" 绑定" + Environment.NewLine);
+                     
                     });
 
                 }

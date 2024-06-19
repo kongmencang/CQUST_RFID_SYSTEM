@@ -59,14 +59,15 @@ class Attendance:
         if course_section['flag'] == -1:
             return {"flag":FLAG_NOT_IN_ATTENDANCE_TIME}
         #获取学生的所有课程
-        stu_courses = mysql_cqust_rfid.get_stu_scheduling_id_by_sno(sno)
+        stu_courses = mysql_cqust_rfid.get_stu_course_id_id_by_sno(sno)
         if not stu_courses:
             return {'flag':FLAG_THIS_TIME_STUDENT_NOT_COURSE}
         # 用来检查是否有课程可以打开
         flag=0
         #遍历一下学生的课程id，看存不存在当前这个时间点的课
         for i in stu_courses:
-            result=mysql_cqust_rfid.get_techer_id_and_course_id_by_time_and_scheduling_id(course_section=course_section['section'],scheduling_id=i,place=place)
+            #节次 地点 课程ID 星期几
+            result=mysql_cqust_rfid.get_techer_id_and_scheduling_id_by_time_and_course_id_and_place(course_section=course_section['section'],course_id=i,place=place)
             if result:
                 start_time = (datetime.combine(datetime.today(), datetime.strptime(time.strftime('%Y-%m-%d ', time.localtime())+COURSE_TIMES[course_section['section']-1][0], "%Y-%m-%d %H:%M:%S").time() ) - timedelta(
                     minutes=COURSE_AGAIN_TIME))
@@ -77,10 +78,11 @@ class Attendance:
                 if(res):
                     return {'flag':FLAG_THIS_TIME_IS_ATTENDENCE}
                 #state 取值 0正常  1迟到 2缺勤
-                res = cls.__add_attendance_info(sno,course_section['section'],result['course_id'],course_section['flag'],place)
+                res = cls.__add_attendance_info(sno,course_section['section'],result['scheduling_id'],course_section['flag'],place)
                 if res:
                     stu_name =mysql_cqust_rfid.get_stu_name_by_sno(sno)
-                    return {'flag':FLAG_OK,'data':{'stu_name':stu_name}}
+
+                    return {'flag':FLAG_OK,'data':{'stu_name':stu_name,"state":course_section['flag']}}
                 else:
                     return {'flag':FLAG_ADD_ATTENDANCE_NOT_SECCESS}
         return {'flag':FLAG_THIS_TIME_STUDENT_NOT_COURSE}
