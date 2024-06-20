@@ -24,3 +24,4 @@ C:\Users\11845\Desktop\自动识别项目\上位机\bin\Debug\Newtonsoft.Json.dl
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.csproj.CopyComplete
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.logincs.resources
 C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.Attendence.resources
+C:\Users\11845\Desktop\自动识别项目\上位机\obj\Debug\CqustRfidSystem.Attendence_info_manage.resources

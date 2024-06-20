@@ -123,7 +123,7 @@ class BaseMysql(object):
         sql = f"SELECT * FROM {table_name}"
         return self.base_select_sql(sql,params=None)
 
-    def build_query_with_arguments(self,base_sql, arguments):
+    def base_build_query_with_arguments(self, base_sql, arguments):
         """
         根据参数字典构建SQL查询
         :param base_sql: 基础SQL查询语句

@@ -46,7 +46,8 @@ class Login(object):
                 dic["data"]={}
                 dic["data"]["user_name"]=user_name
                 dic["data"]["user_power"]=user_power
-                #获取用户名和权限
+                #获取用户所属学院
+                dic["data"]["user_school_id"]=mysql_cqust_rfid.get_user_school_id_by_user_id(user_id)
 
                 print("用户: {} 登录成功".format(user_id))
 

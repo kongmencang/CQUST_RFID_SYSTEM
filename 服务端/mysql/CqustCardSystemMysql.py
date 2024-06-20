@@ -176,6 +176,18 @@ class CqustCardSystemMysql(BaseMysql):
             return result[0][0]
         else:
             return None
+    def get_user_school_id_by_user_id(self,user_id):
+        """
+        获取学院id
+        :param user_id:
+        :return:
+        """
+        result = self.base_get_attribute_value_by_table_and_one_condition(table_name=MYSQL_TEACHER_INFO_TABLE,attribute_name="teacher_school_id",condition_name="teacher_id",condition_value=user_id)
+        if result:
+            return result[0][0]
+        else:
+            return None
+        pass
     """
     以下内容跟学生信息相关
     """
@@ -268,6 +280,46 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
 
+    def auto_insert_not_attendance_student_info(self,course_section):
+        current_datetime = datetime.now()
+        weekday = current_datetime.weekday()+1
+        now_day=current_datetime.strftime("%Y-%m-%d")
+        # 这一次查询的目的是找出这个时间点的课程
+        sql1 = "select course_id, scheduling_id, place from scheduling_info where weekday = %s and course_section = %s and state = 1"
+        param=(weekday,course_section)
+        result1 = self.base_select_sql(sql1,params=param)
+        if not result1:
+            return
+        for course_id, scheduling_id, place in result1:
+            # 这异常查询的目的是找出选修这些课程的学生
+            sql2 = "select sno from stu_course_selection_info where course_id = %s"
+            result2 = self.base_select_sql(sql2, (course_id,))
+            if not result2:
+                continue
+            for (sno,) in result2:
+                # 如果这些学生没有在签到表中，就视为缺勤 记录入表。
+                sql3 = """
+                    select * from attendance_info 
+                    where substring_index(addtime, ' ', 1) = %s
+                    and sno = %s 
+                    and scheduling_id = %s 
+                    and course_sections = %s
+                """
+                result3 = self.base_select_sql(sql3, (now_day,sno, scheduling_id,course_section))
+                if not result3:
+                    addtime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+                    insert_data={
+                        'addtime':addtime,
+                        'sno': sno,
+                        'course_sections': course_section,
+                        'scheduling_id': scheduling_id,
+                        'place': place,
+                        'state':'2'
+                    }
+                    print("自动插入迟到学生",insert_data)
+                    self.base_insert_value_to_table(MYSQL_ATTENDENCE_INFO_TABLE,insert_data)
+        return
+
     """
     下面是信息综合查询相关
     """
@@ -278,6 +330,24 @@ class CqustCardSystemMysql(BaseMysql):
         :return: 字典列表[{school_id:school_name},{school_id:school_name}]
         """
         result = self.base_get_a_table_all_data(table_name=MYSQL_SCHOOL_INFO_TABLE)
+        ans = []
+        if result:
+            for i in result:
+                school_id = i[0]
+                school_name = i[1]
+                ans.append({"school_id": school_id, "school_name": school_name})
+            return ans
+        else:
+            return None
+
+    def get_school_name_from_school_info_by_argument(self,argument):
+        """
+        查询学院名 根据参数
+        :return: 字典列表[{school_id:school_name},{school_id:school_name}]
+        """
+        base_sql = f"SELECT school_id, school_name FROM {MYSQL_SCHOOL_INFO_TABLE} WHERE "
+        sql = self.base_build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
         ans = []
         if result:
             for i in result:
@@ -313,7 +383,7 @@ class CqustCardSystemMysql(BaseMysql):
         :return 字典列表[{"department_id": department_id, "department_name": department_name}]
         """
         base_sql = f"SELECT department_id, department_name FROM {MYSQL_DEPARTMENT_INFO_TABLE} WHERE "
-        sql = self.build_query_with_arguments(base_sql, argument)
+        sql = self.base_build_query_with_arguments(base_sql, argument)
         result = self.base_select_sql(sql, argument)
         ans = []
         if result:
@@ -348,7 +418,7 @@ class CqustCardSystemMysql(BaseMysql):
         :return 字典列表
         """
         base_sql = f"SELECT subject_id, subject_name FROM {MYSQL_SUBJECT_INFO_TABLE} WHERE "
-        sql = self.build_query_with_arguments(base_sql, argument)
+        sql = self.base_build_query_with_arguments(base_sql, argument)
         result = self.base_select_sql(sql, argument)
         ans = []
         if result:
@@ -367,7 +437,7 @@ class CqustCardSystemMysql(BaseMysql):
         :return 字典列表
         """
         base_sql = f"SELECT class_id, class_name FROM {MYSQL_CLASS_INFO_TABLE} WHERE "
-        sql = self.build_query_with_arguments(base_sql, argument)
+        sql = self.base_build_query_with_arguments(base_sql, argument)
         result = self.base_select_sql(sql, argument)
         ans = []
         if result:
@@ -402,8 +472,90 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
 
+    def get_scheduling_info_from_scheduling_info_by_argument(self, argument):
+        """
+        获取排课表信息
+        :param argument:
+        :return:
+        """
+        base_sql = f"SELECT * FROM {MYSQL_SCHEDULING_INFO_TABLE} WHERE state='1' and term_time ='{TERM_TIME}' and "
+        sql = self.base_build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
+        ans = []
+        if result:
+            for i in result:
+                ans.append({
+                    "id": i[0],
+                    "scheduling_id": i[1],
+                    "weekday": i[2],
+                    "course_id": i[3],
+                    "teacher_id": i[4],
+                    "course_section": i[5],
+                    "place": i[6],
+                    "term_time": i[7],
+                    "state": i[8]
+                })
+            print(ans)
+            return ans
+        else:
+            return None
+    def get_course_info_from_course_info_by_argument(self, argument):
+        """
+        获取课程信息
+        根据参数字典进行查询
+        :param argument: {‘argument_name’：‘argument_value’}
+        :return 字典列表
+        """
+        base_sql = f"SELECT * FROM {MYSQL_COURSE_BASE_INFO_TABLE} WHERE "
+        sql = self.base_build_query_with_arguments(base_sql, argument)
+        result = self.base_select_sql(sql, argument)
+        ans = []
+        if result:
+            for i in result:
+                ans.append({"course_id": i[0], "course_name": i[1],"department_id":i[2]})
+            return ans
+        else:
+            return None
+    def get_course_name_by_scheduing_id(self,scheduing_id):
+        sql ="select course_name from course_base_info where course_id = (select course_id from scheduling_info where scheduling_id = %s)"
+        result = self.base_select_sql(sql,(scheduing_id,))
+        if result:
+            return [{'course_name':result[0][0]}]
+        else:
+            return  None
 
+    def get_attendance_info(self,argument):
+        sql="""
+        
+        select addtime,attendance_info.sno,student_info.name,class_info.class_name,course_base_info.course_name,
+attendance_info.place,course_sections,teacher_info.teacher_name,attendance_info.state ,counselor_info.teacher_name as counselor_name
+
+from attendance_info ,scheduling_info ,teacher_info ,student_info,class_info,course_base_info,teacher_info as counselor_info,
+subject_info,department_info,school_info
+
+where scheduling_info.scheduling_id =attendance_info.scheduling_id 
+and teacher_info.teacher_id =scheduling_info.teacher_id 
+and student_info.sno=attendance_info.sno
+and student_info.class_id = class_info.class_id
+and course_base_info.course_id =scheduling_info.course_id
+and class_info.counsellor_id = counselor_info.teacher_id
+and department_info.department_id =subject_info.department_id
+and department_info.school_id =school_info.school_id
+and class_info.subject_id = subject_info.subject_id
+
+and school_name ="智能技术与工程学院"
+and department_name="物联网系"
+and subject_name ='物联网工程'
+and class_name ="物工2001-01"
+and weekday='4'
+and course_sections='3'
+and scheduling_info.teacher_id="0101000001"
+and attendance_info.state='2'
+and addtime >= '2024-06-20 00:00:00'
+and addtime <= '2024-06-21 00:00:00'
+and attendance_info.scheduling_id='2024000001';
+
+        """
 if __name__ == '__main__':
     # a={"school_id":"0100000000"}
     mysql_cqust_rfid = CqustCardSystemMysql(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST)
-

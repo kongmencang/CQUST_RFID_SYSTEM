@@ -295,10 +295,6 @@ namespace CqustRfidSystem
  
 
 
-        private void ProcessReceivedData(string data, string messageType)
-        {
-       
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -375,11 +371,8 @@ namespace CqustRfidSystem
             {
          
             
-                if (data.StartsWith("cqust") && data[15] == '#')
-                {
-                    ProcessReceivedData(data.Substring(5, 10), "读卡");
-                }
-                else if (data.StartsWith("ok") && data[15] == '#')
+            
+                if (data.StartsWith("ok") && data[15] == '#')
                 {
                    
                     string read_card_ok = data.Substring(2, 10);

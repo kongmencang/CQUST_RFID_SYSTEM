@@ -1,3 +1,4 @@
+import threading
 from datetime import datetime, timedelta
 import time
 from conflig import *
@@ -86,3 +87,29 @@ class Attendance:
                 else:
                     return {'flag':FLAG_ADD_ATTENDANCE_NOT_SECCESS}
         return {'flag':FLAG_THIS_TIME_STUDENT_NOT_COURSE}
+
+    @classmethod
+    def auto_attendance(cls):
+        while True:
+            now = datetime.now()
+            # 调度当天的打卡任务
+            for i, (start_time_str, _) in enumerate(COURSE_TIMES):
+                start_time = datetime.strptime(start_time_str, "%H:%M:%S")
+                card_open_time = now.replace(hour=start_time.hour, minute=start_time.minute,
+                                                second=start_time.second,
+                                                microsecond=0)
+                card_open_time += timedelta(minutes=COURSE_ABSENCE_TIME)
+                # 计算等待时间
+                wait_time = (card_open_time - now).total_seconds()
+                if wait_time > 0:
+                    # 开一个线程等待打卡
+                    threading.Timer(wait_time, mysql_cqust_rfid.auto_insert_not_attendance_student_info, args=(i+1,)).start()
+                else:
+                    return
+                    # #为什么我会这么写呢，我也不知道 反正没打卡的就必须缺勤！就算系统关闭了，你也逃不掉，嘿嘿
+                    mysql_cqust_rfid.auto_insert_not_attendance_student_info(i+1)
+            # 计算距离午夜的时间
+            next_midnight = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+            seconds_until_midnight = (next_midnight - now).total_seconds()
+            # 新的一天 开启新的打卡任务！
+            time.sleep(seconds_until_midnight)

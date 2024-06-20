@@ -39,6 +39,8 @@ MYSQL_DEPARTMENT_INFO_TABLE = 'department_info'
 MYSQL_SUBJECT_INFO_TABLE = 'subject_info'
 #班级信息表
 MYSQL_CLASS_INFO_TABLE = 'class_info'
+#课程信息表
+MYSQL_COURSE_BASE_INFO_TABLE = 'course_base_info'
 """
 用户账号状态
 """
@@ -85,14 +87,18 @@ COURSE_TIMES = [
     ("18:00:00", "19:40:00"),
     ("21:40:00", "21:40:00"),#第六节课开始结束时间
 ]
+
 COURSE_TIMES = [
     ("08:00:00", "10:10:00"), #第一节课开始结束时间
     ("10:30:00", "12:10:00"),
-    ("14:00:00", "15:40:00"),
+    ("13:20:00", "15:40:00"),
     ("16:00:00", "17:40:00"),
     ("20:20:00", "21:40:00"),
     ("21:40:00", "21:40:00"),#第六节课开始结束时间
 ]
+
+
+
 # 缺勤时间（分钟）
 COURSE_ABSENCE_TIME = 15
 # 迟到时间
@@ -101,5 +107,6 @@ COURSE_LATE_TIME = 5
 COURSE_AGAIN_TIME = 5
 # 打卡关闭时间
 COURSE_ABSENCE_TIME = 20
+
 
 TERM_TIME= "202301"

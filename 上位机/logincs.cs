@@ -92,6 +92,12 @@ namespace CqustRfidSystem
                                         share_info.user_power = user_power;
                                     
                                     }
+                                    if (dataObject2.TryGetValue("user_school_id", out var usersidValue2) && usersidValue2 is JValue usersidJValue2)
+                                    {
+                                        string user_school_id = usersidJValue2.Value.ToString();
+                                        share_info.user_school = user_school_id;
+
+                                    }
                                     share_info.user_id = user_id.Text;
                                 }
                                 break;

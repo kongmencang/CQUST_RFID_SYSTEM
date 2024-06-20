@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # 允许所有来源的请求
 
 
-
+run_flag = False
 
 
 @app.route('/login', methods=['POST'])
@@ -58,10 +58,13 @@ def get_info():
         argument =request.json.get("info_argument")#查询参数
         if not how_get:
             return jsonify({"flag": FLAG_ERROR}), 200
-
         return jsonify(Option.get_info_option(how_get,argument)),200
 
 
-
+def run():
+    global run_flag
+    if run_flag==False:
+        app.run(port=6666, debug=True, host='0.0.0.0')
+        run_flag=True;
 if __name__ == '__main__':
-    app.run(port=6666,debug=True,host='0.0.0.0')
+    pass
