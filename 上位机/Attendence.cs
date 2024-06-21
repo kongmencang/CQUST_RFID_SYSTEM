@@ -20,6 +20,7 @@ namespace CqustRfidSystem
         private StringBuilder buffer = new StringBuilder();
 
         private bool is_first_re_ok = true;
+        Dictionary<string,SerialPort> sp =new Dictionary<string,SerialPort>();
 
         string read_sno_flag = "0";
         public Attendence()
@@ -33,8 +34,8 @@ namespace CqustRfidSystem
             string[] ports = SerialPort.GetPortNames();//获取计算机可用串口
             if (ports.Length > 0)//有可用串口
             {
-                comboBox_school_port.Items.AddRange(ports);
-                comboBox_school_port.SelectedIndex = 0;
+                comboBox_port.Items.AddRange(ports);
+                comboBox_port.SelectedIndex = 0;
             }
         }
 
@@ -44,18 +45,24 @@ namespace CqustRfidSystem
             textBox_place.Text = "I118";
             string pattern = @"^[A-Z]\d{3}$";
             Regex regex = new Regex(pattern);
-            if (regex.IsMatch(textBox_place.Text) && comboBox_school_port.Text != "")
+            if (regex.IsMatch(textBox_place.Text) && comboBox_port.Text != "")
             {
-                Serialport.close_usrt(port);
-                comboBox_school_port.Text="COM10";
-                port.BaudRate = 4800;
-                port.PortName = comboBox_school_port.Text;
-                Serialport.open_usrt(port);
+               
+    
+               
+  
+                SerialPort ports = new SerialPort();
+                ports.PortName = comboBox_port.Text;
+                ports.BaudRate = 4800;
+                Serialport.open_usrt(ports);
+                ports.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+                sp[comboBox_port.Text] = ports;
+
                 //设置地点：
-                //string set_place_data = "s" + textBox_place.Text + "0000000000#";
-                string set_place_data = "sI1180000000000#";
+                string set_place_data = "s" + textBox_place.Text + "0000000000#";
+               // string set_place_data = "sI1180000000000#";
            
-                Serialport.send_string_to_byte_data(port,set_place_data);
+                Serialport.send_string_to_byte_data(ports,set_place_data);
 
             }
             else {
@@ -68,7 +75,7 @@ namespace CqustRfidSystem
         private void btn_open_Click_1(object sender, EventArgs e)
         {
             //开启打卡模式
-            Serialport.send_string_to_byte_data(port, "d00000000000000#");
+            Serialport.send_string_to_byte_data(sp[comboBox_port.Text], "d00000000000000#");
             log_text.SelectionColor = Color.Green;
             log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")}Rfid_reader: 开启打卡模式成功" + Environment.NewLine);
         }
@@ -147,29 +154,29 @@ namespace CqustRfidSystem
                                     log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 不在考勤时间" + Environment.NewLine);
                                     //不在考勤时间
                                     send_print_data = "dp2000000000000#";
-                                    Serialport.send_string_to_byte_data(port, send_print_data);
+                                    Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_THIS_TIME_STUDENT_NOT_COURSE:
                                     log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $"学号 {sno} 此时间段无课" + Environment.NewLine);
                                     //该时间没有课
                                     send_print_data = "dp3000000000000#";
-                                    Serialport.send_string_to_byte_data(port, send_print_data);
+                                    Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_ADD_ATTENDANCE_NOT_SUCCESS:
                                     log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $"学号 {sno} 考勤失败" + Environment.NewLine);
                                     //添加记录失败
                                     send_print_data = "dp1000000000000#";
-                                    Serialport.send_string_to_byte_data(port, send_print_data);
+                                    Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_ERROR:
                                     send_print_data = "dp1000000000000#";
-                                    Serialport.send_string_to_byte_data(port, send_print_data);
+                                    Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_THIS_TIME_IS_ATTENDANCE:
                                     log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $"学号 {sno} 本节课已打卡" + Environment.NewLine);
                                     //本时间段已经打过卡了
                                     send_print_data = "dp4000000000000#";
-                                    Serialport.send_string_to_byte_data(port, send_print_data);
+                                    Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_OK:
                                     if (response.TryGetValue("data", out object dataValue2) && dataValue2 is JObject dataObject2)
@@ -185,7 +192,7 @@ namespace CqustRfidSystem
                                                 if (state_flag == 0) { state = "正常"; send_print_data = "dp0000000000000#"; }
                                                 else if (state_flag == 1) { state = "迟到"; send_print_data = "dp0100000000000#"; }
                                                 else if(state_flag == 2) { state = "缺勤"; send_print_data = "dp0200000000000#"; }
-                                                Serialport.send_string_to_byte_data(port, send_print_data);
+                                                Serialport.send_string_to_byte_data(uart, send_print_data);
                                                 log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学号 {sno} 学生 {stu_name} 打卡成功 状态 {state}" + Environment.NewLine);
                                             }
                                                 
@@ -204,6 +211,13 @@ namespace CqustRfidSystem
 
                 }
        
+            }
+        }
+
+        private void button_close_Click(object sender, EventArgs e)
+        {
+            if (comboBox_port.Text != null) {
+                Serialport.close_usrt(sp[comboBox_port.Text]);
             }
         }
     }

@@ -6,40 +6,40 @@
 #include <stdio.h>
 #include <string.h>
 
-#define uchar unsigned char // ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½
-#define MAX_LEN 16          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó³¤¶ï¿½
+#define uchar unsigned char // ¶¨ÒåÎÞ·ûºÅ×Ö·ûÀàÐÍ
+#define MAX_LEN 16          // Êý¾Ý×î´ó³¤¶È
 #define FIRST_ROW 0
 #define SECOND_ROW 2
 #define THIRD_ROW 4
 
-uchar Char;                   // ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Char
-uchar flag;                   // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»ï¿½ï¿½ï¿½ï¿½flag
-uchar received_data[MAX_LEN]; // ï¿½æ´¢ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-uchar data_index = 0;         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-// Ç°ï¿½ï¿½Î»cqust   ï¿½Ð¼ï¿½10Î»Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-uchar stu_id[16] = {0x63, 0x71, 0x75, 0x73, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ï¿½æ´¢Ñ§ï¿½Å¸ï¿½Ê½
+uchar Char;                   // ¶¨Òå×Ö·û±äÁ¿Char
+uchar flag;                   // ¶¨Òå±êÖ¾Î»±äÁ¿flag
+uchar received_data[MAX_LEN]; // ´æ´¢½ÓÊÕµ½µÄÊý¾Ý
+uchar data_index = 0;         // Êý¾ÝË÷Òý
+// Ç°ÎåÎ»cqust   ÖÐ¼ä10Î»Ñ§Éú¿¨ºÅ
+uchar stu_id[16] = {0x63, 0x71, 0x75, 0x73, 0x74, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ´æ´¢Ñ§ºÅ¸ñÊ½
 
-// ï¿½ï¿½1Î»d ï¿½ï¿½10Î»Ñ§ï¿½ï¿½ ï¿½ï¿½4Î»ï¿½ï¿½Ö·
-uchar response_array[16] = {0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ö¡
+// µÚ1Î»d ½Ó10Î»Ñ§ºÅ ½Ó4Î»µØÖ·
+uchar response_array[16] = {0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ´ò¿¨ÏìÓ¦Êý¾ÝÖ¡
 
-// Ç°ï¿½ï¿½Î» ok  ï¿½Ð¼ï¿½Ê®Î»Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-uchar write_ok[16] = {0x6F, 0x6B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ï¿½É¹ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
+// Ç°Á½Î» ok  ÖÐ¼äÊ®Î»Ñ§Éú¿¨ºÅ
+uchar write_ok[16] = {0x6F, 0x6B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ³É¹¦ÏìÓ¦Êý×é
 
-// Ç°ï¿½ï¿½Î» cardid ï¿½Ð¼ï¿½8Î» ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½
-uchar card_id[16] = {0x63, 0x61, 0x72, 0x64, 0x69, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ï¿½ï¿½Æ¬idï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
+// Ç°ÁùÎ» cardid ÖÐ¼ä8Î» ±êÇ©¿¨ºÅ
+uchar card_id[16] = {0x63, 0x61, 0x72, 0x64, 0x69, 0x64, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x23}; // ¿¨Æ¬idÏìÓ¦Êý×é
 
-// ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
+// ´ò¿¨ÏìÓ¦Êý×é
 
 unsigned char g_ucTempbuf[16];
 unsigned char code DefaultKey[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
 uchar i;
 
-// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ 0Î´ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½
+// ÊÇ·ñ¶Áµ½¿¨±êÖ¾ 0Î´¶Á 1¶Á¿¨
 uchar is_card_read = 0;
-// ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Ö¾Î» 0ï¿½ï¿½ï¿½ï¿½ 1Ð´ï¿½ï¿½
+// ÔËÐÐÄ£Ê½±êÖ¾Î» 0¶Á¿¨ 1Ð´¿¨
 uchar run_mode = 0;
-// ï¿½Ç·ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½
+// ÊÇ·ñ½ÓÊÕµ½Êý¾Ý
 uchar is_read_data = 0;
 
 void delay1(unsigned int z)
@@ -50,7 +50,7 @@ void delay1(unsigned int z)
             ;
 }
 
-// UARTï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½Úºï¿½ï¿½ï¿½
+// UART·¢ËÍÒ»¸ö×Ö½Úº¯Êý
 void UART_sendbyte(uchar Byte)
 {
     SBUF = Byte;
@@ -82,7 +82,7 @@ void clear_row(uchar row)
 
 void display_title(uchar row)
 {
-    // cqustï¿½ï¿½ï¿½ï¿½ÏµÍ³
+    // cqust¿¼ÇÚÏµÍ³
     LCD_write_shu(0, row, 12);
     LCD_write_shu(1, row, 26);
     LCD_write_shu(2, row, 30);
@@ -99,7 +99,7 @@ void display_title(uchar row)
 
 void display_sno(uchar row)
 {
-    // Ñ§ï¿½ï¿½
+    // Ñ§ºÅ
     LCD_write_hanzi(0, row, 8);
     LCD_write_hanzi(2, row, 9);
     for (i = 0; i < 10; i++)
@@ -111,7 +111,7 @@ void display_sno(uchar row)
 
 void display_bang_ding_chen_gong(uchar row)
 {
-    // ï¿½ó¶¨³É¹ï¿½
+    // °ó¶¨³É¹¦
     LCD_write_hanzi(2, row, 10);
     LCD_write_hanzi(4, row, 11);
     LCD_write_hanzi(6, row, 6);
@@ -120,7 +120,7 @@ void display_bang_ding_chen_gong(uchar row)
 
 void display_kao_qing_shi_bai(uchar row)
 {
-    // ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+    // ¿¼ÇÚÊ§°Ü
     LCD_write_hanzi(3, row, 0);
     LCD_write_hanzi(5, row, 1);
     LCD_write_hanzi(7, row, 16);
@@ -129,18 +129,18 @@ void display_kao_qing_shi_bai(uchar row)
 
 void display_bu_zai_kao_qing_shi_jian(uchar row)
 {
-    // ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
-    LCD_write_hanzi(0, row, 12);
-    LCD_write_hanzi(2, row, 13);
-    LCD_write_hanzi(4, row, 0);
-    LCD_write_hanzi(8, row, 1);
-    LCD_write_hanzi(10, row, 14);
-    LCD_write_hanzi(12, row, 15);
+    // ²»ÔÚ¿¼ÇÚÊ±¼ä
+    LCD_write_hanzi(1, row, 12);
+    LCD_write_hanzi(3, row, 13);
+    LCD_write_hanzi(5, row, 0);
+    LCD_write_hanzi(7, row, 1);
+    LCD_write_hanzi(9, row, 14);
+    LCD_write_hanzi(11, row, 15);
 }
 
 void display_ben_shi_jian_dun_wu_ke(uchar row)
 {
-    // ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Þ¿ï¿½
+    // ±¾Ê±¼ä¶ÎÎÞ¿Î
     LCD_write_hanzi(1, row, 18);
     LCD_write_hanzi(3, row, 14);
     LCD_write_hanzi(5, row, 15);
@@ -151,7 +151,7 @@ void display_ben_shi_jian_dun_wu_ke(uchar row)
 
 void display_ben_jie_ke_yi_da_ka(uchar row)
 {
-    // ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ñ´ï¿½
+    // ±¾½Ú¿ÎÒÑ´ò¿¨
     LCD_write_hanzi(1, row, 18);
     LCD_write_hanzi(3, row, 22);
     LCD_write_hanzi(5, row, 21);
@@ -161,23 +161,23 @@ void display_ben_jie_ke_yi_da_ka(uchar row)
 }
 void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
 {
-    // ï¿½ï¿½ï¿½Ú£ï¿½
+    // ¿¼ÇÚ£º
     LCD_write_hanzi(2, row, 0);
     LCD_write_hanzi(4, row, 1);
     LCD_write_shu(6, row, 36);
     if (state == '0')
-    { // ï¿½ï¿½ï¿½ï¿½
+    { // Õý³£
         LCD_write_hanzi(7, row, 26);
         LCD_write_hanzi(9, row, 27);
     }
     if (state == '1')
-    { // ï¿½Ùµï¿½
+    { // ³Ùµ½
         LCD_write_hanzi(7, row, 28);
         LCD_write_hanzi(9, row, 29);
     }
     if (state == '2')
     {
-        // È±ï¿½ï¿½
+        // È±ÇÚ
         LCD_write_hanzi(7, row, 30);
         LCD_write_hanzi(9, row, 1);
     }
@@ -188,33 +188,33 @@ void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
 void display_cardnum(uchar row)
 {
     unsigned char first, second;
-    // ï¿½ï¿½ï¿½ï¿½:
+    // ¿¨ºÅ:
     LCD_write_hanzi(0, row, 5);
     LCD_write_hanzi(2, row, 9);
     LCD_write_shu(4, row, 36);
     first = (g_ucTempbuf[0] & 0xf0) >> 4;
-    LCD_write_shu(5, row, first); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(5, row, first); // Ð´Êý×Ö
     second = g_ucTempbuf[0] & 0x0f;
-    LCD_write_shu(6, row, second); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(6, row, second); // Ð´Êý×Ö
 
     first = (g_ucTempbuf[1] & 0xf0) >> 4;
-    LCD_write_shu(7, row, first); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(7, row, first); // Ð´Êý×Ö
     second = g_ucTempbuf[1] & 0x0f;
-    LCD_write_shu(8, row, second); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(8, row, second); // Ð´Êý×Ö
 
     first = (g_ucTempbuf[2] & 0xf0) >> 4;
-    LCD_write_shu(9, row, first); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(9, row, first); // Ð´Êý×Ö
     second = g_ucTempbuf[2] & 0x0f;
-    LCD_write_shu(10, row, second); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(10, row, second); // Ð´Êý×Ö
 
     first = (g_ucTempbuf[3] & 0xf0) >> 4;
-    LCD_write_shu(11, row, first); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(11, row, first); // Ð´Êý×Ö
     second = g_ucTempbuf[3] & 0x0f;
-    LCD_write_shu(12, row, second); // Ð´ï¿½ï¿½ï¿½ï¿½
+    LCD_write_shu(12, row, second); // Ð´Êý×Ö
     LCD_write_shu(13, row, 37);
 }
 
-// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// Ö÷º¯Êý
 void main()
 {
     unsigned char status;
@@ -231,7 +231,7 @@ void main()
     while (1)
     {
 
-        // Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½
+        // Ð´Èë¶Á¿¨Æ÷Ëù´¦µØÖ·¡£
         if (received_data[0] == 's')
         {
 
@@ -244,10 +244,10 @@ void main()
                 UART_sendbyte(write_ok[i]);
             }
 
-            // ï¿½ï¿½ï¿½Ø³É¹ï¿½ï¿½ï¿½Ó¦
+            // ·µ»Ø³É¹¦ÏìÓ¦
         }
 
-        status = PcdRequest(PICC_REQALL, g_ucTempbuf); // Ñ°ï¿½ï¿½
+        status = PcdRequest(PICC_REQALL, g_ucTempbuf); // Ñ°¿¨
         if (status != MI_OK)
         {
 
@@ -257,21 +257,21 @@ void main()
             continue;
         }
 
-        status = PcdAnticoll(g_ucTempbuf); // ï¿½ï¿½ï¿½ï¿½×²
+        status = PcdAnticoll(g_ucTempbuf); // ·À³å×²
         if (status != MI_OK)
         {
 
             continue;
         }
 
-        // ×ªï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½
+        // ×ª»»¿¨Æ¬·¢ËÍ
         for (i = 0; i < 4; i++)
         {
-            uchar high_nibble = (g_ucTempbuf[i] >> 4) & 0x0F; // ï¿½ï¿½4Î»
-            uchar low_nibble = g_ucTempbuf[i] & 0x0F;         // ï¿½ï¿½4Î»
+            uchar high_nibble = (g_ucTempbuf[i] >> 4) & 0x0F; // ¸ß4Î»
+            uchar low_nibble = g_ucTempbuf[i] & 0x0F;         // µÍ4Î»
 
-            card_id[6 + 2 * i] = nibble_to_ascii(high_nibble); // ï¿½ï¿½4Î»×ªï¿½ï¿½Îª ASCII
-            card_id[7 + 2 * i] = nibble_to_ascii(low_nibble);  // ï¿½ï¿½4Î»×ªï¿½ï¿½Îª ASCII
+            card_id[6 + 2 * i] = nibble_to_ascii(high_nibble); // ¸ß4Î»×ª»»Îª ASCII
+            card_id[7 + 2 * i] = nibble_to_ascii(low_nibble);  // µÍ4Î»×ª»»Îª ASCII
         }
 
         for (i = 0; i < 16; i++)
@@ -280,21 +280,21 @@ void main()
         }
 
         display_cardnum(FIRST_ROW);
-        status = PcdSelect(g_ucTempbuf); // Ñ¡ï¿½ï¿½ï¿½ï¿½Æ¬
+        status = PcdSelect(g_ucTempbuf); // Ñ¡¶¨¿¨Æ¬
         if (status != MI_OK)
         {
 
             continue;
         }
 
-        status = PcdAuthState(PICC_AUTHENT1A, 1, DefaultKey, g_ucTempbuf); // ï¿½ï¿½Ö¤ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½
+        status = PcdAuthState(PICC_AUTHENT1A, 1, DefaultKey, g_ucTempbuf); // ÑéÖ¤¿¨Æ¬ÃÜÂë
         if (status != MI_OK)
         {
 
             continue;
         }
 
-        // Ð´ï¿½ï¿½
+        // Ð´¿¨
         if (received_data[0] == 'w')
         {
             for (i = 0; i < 10; i++)
@@ -302,25 +302,25 @@ void main()
                 stu_id[5 + i] = received_data[1 + i];
                 write_ok[2 + i] = received_data[1 + i];
             }
-            status = PcdWrite(2, stu_id); // Ð´ï¿½ï¿½ï¿½ï¿½
+            status = PcdWrite(2, stu_id); // Ð´Êý¾Ý
             if (status != MI_OK)
             {
 
                 continue;
             }
-            // ï¿½ï¿½ï¿½Ø³É¹ï¿½ï¿½ï¿½Ó¦
+            // ·µ»Ø³É¹¦ÏìÓ¦
             for (i = 0; i < 16; i++)
             {
                 UART_sendbyte(write_ok[i]);
             }
-            // ï¿½ï¿½Ê¾ï¿½ï¿½
+            // ÏÔÊ¾°ó¶¨
             display_sno(SECOND_ROW);
-            // ï¿½ï¿½Ê¾ï¿½ó¶¨³É¹ï¿½
+            // ÏÔÊ¾°ó¶¨³É¹¦
             display_bang_ding_chen_gong(THIRD_ROW);
-            // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»
+            // Çå³ý±êÖ¾Î»
             received_data[0] = 0;
 
-            // ï¿½ï¿½È¡ï¿½ï¿½Æ¬ï¿½ó¶¨µï¿½Ñ§ï¿½ï¿½
+            // ¶ÁÈ¡¿¨Æ¬°ó¶¨µÄÑ§ºÅ
         }
         else if (received_data[0] == 'r')
         {
@@ -334,7 +334,7 @@ void main()
                 UART_sendbyte(g_ucTempbuf[i]);
             }
         }
-        // ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+        // ´ò¿¨Ä£Ê½£¬·µ»ØÑ§ºÅ
         else if (received_data[0] == 'd')
         {
             status = PcdRead(2, g_ucTempbuf);
@@ -373,10 +373,10 @@ void main()
     }
 }
 
-// ÏµÍ³ï¿½ï¿½Ê¼ï¿½ï¿½
+// ÏµÍ³³õÊ¼»¯
 void InitializeSystem()
 {
-    // I/O ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½
+    // I/O ¶Ë¿ÚÅäÖÃ
     P0M1 = 0x0;
     P0M2 = 0x0;
     P1M1 = 0x0;
@@ -388,37 +388,37 @@ void InitializeSystem()
     P3 = 0xFF;
     P2 = 0xFF;
 
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    SCON = 0x50; // ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½Ä£Ê½1ï¿½ï¿½8Î»ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ´®¿ÚÅäÖÃ
+    SCON = 0x50; // ´®ÐÐÍ¨ÐÅÄ£Ê½1£¬8Î»Êý¾Ý£¬ÔÊÐí½ÓÊÕ
 
-    // ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    TMOD = 0x20; // T1Îªï¿½ï¿½Ê½2ï¿½ï¿½8Î»ï¿½Ô¶ï¿½ï¿½ï¿½×°ï¿½ï¿½
+    // ¶¨Ê±Æ÷ÅäÖÃ
+    TMOD = 0x20; // T1Îª·½Ê½2£¨8Î»×Ô¶¯ÖØ×°£©
 
-    // ï¿½ï¿½ï¿½Ã¶ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Öµ
-    TH1 = 0xFA; // ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½Îª4800bps
+    // ÉèÖÃ¶¨Ê±Æ÷³õÖµ
+    TH1 = 0xFA; // ÉèÖÃ²¨ÌØÂÊÎª4800bps
     TL1 = 0xFA;
 
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½1
-    TR1 = 1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½1
+    // Æô¶¯¶¨Ê±Æ÷1
+    TR1 = 1; // Æô¶¯¶¨Ê±Æ÷1
 
-    // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½
-    ES = 1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
-    EA = 1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+    // ÖÐ¶ÏÅäÖÃ
+    ES = 1; // ÔÊÐí´®ÐÐÖÐ¶Ï
+    EA = 1; // ¿ªÆô×ÜÖÐ¶Ï
 
-    // ï¿½ï¿½ï¿½Ã±ï¿½Ö¾
+    // ÉèÖÃ±êÖ¾
     TI = 1;
 }
 
-// UARTï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï·ï¿½ï¿½ï¿½ï¿½ï¿½
+// UART½ÓÊÕÖÐ¶Ï·þÎñº¯Êý
 void UART_R() interrupt 4
 {
     if (RI == 1)
-    {                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½
-        Char = SBUF; // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Charï¿½ï¿½ï¿½ï¿½
+    {                // Èç¹û½ÓÊÕµ½Êý¾Ý
+        Char = SBUF; // ¶ÁÈ¡½ÓÊÕµ½µÄÊý¾Ýµ½Char±äÁ¿
 
-        RI = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ±ï¿½Ö¾Î»
+        RI = 0; // Çå³ý½ÓÊÕ±êÖ¾Î»
         if (Char == '#')
-        { // ï¿½ï¿½âµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        { // ¼ì²âµ½½áÊø·û
             is_read_data = 1;
 
             data_index = 0;
@@ -426,7 +426,7 @@ void UART_R() interrupt 4
         else
         {
             if (data_index <= MAX_LEN - 1)
-            { // ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½
+            { // ·ÀÖ¹Êý×éÔ½½ç
                 received_data[data_index++] = Char;
             }
         }

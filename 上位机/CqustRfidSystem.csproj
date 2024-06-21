@@ -79,12 +79,6 @@
     <Compile Include="SendCard.Designer.cs">
       <DependentUpon>SendCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="SerialConf.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SerialConf.Designer.cs">
-      <DependentUpon>SerialConf.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="share_info.cs" />
@@ -102,9 +96,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SendCard.resx">
       <DependentUpon>SendCard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SerialConf.resx">
-      <DependentUpon>SerialConf.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -124,6 +115,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\calendar.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -101,6 +101,7 @@ class Attendance:
                 card_open_time += timedelta(minutes=COURSE_ABSENCE_TIME)
                 # 计算等待时间
                 wait_time = (card_open_time - now).total_seconds()
+                print(wait_time)
                 if wait_time > 0:
                     # 开一个线程等待打卡
                     threading.Timer(wait_time, mysql_cqust_rfid.auto_insert_not_attendance_student_info, args=(i+1,)).start()

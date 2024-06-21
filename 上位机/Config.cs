@@ -38,6 +38,9 @@ namespace CqustRfidSystem
         public const string FLAG_ADD_ATTENDANCE_NOT_SUCCESS = "000010"; // 表示考勤记录添加失败
         public const string FLAG_THIS_TIME_IS_ATTENDANCE = "000011"; // 表示当前时间已考勤
 
+  
+        
+
 
     }
 }

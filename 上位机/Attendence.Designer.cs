@@ -28,19 +28,18 @@ namespace CqustRfidSystem
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.log_text = new System.Windows.Forms.RichTextBox();
             this.textBox_place = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox_school_port = new System.Windows.Forms.ComboBox();
+            this.comboBox_port = new System.Windows.Forms.ComboBox();
             this.btn_set = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label_student_id = new System.Windows.Forms.Label();
             this.label_place = new System.Windows.Forms.Label();
             this.btn_open = new System.Windows.Forms.Button();
-            this.port = new System.IO.Ports.SerialPort(this.components);
+            this.button_close = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // log_text
@@ -78,13 +77,13 @@ namespace CqustRfidSystem
             this.label2.TabIndex = 25;
             this.label2.Text = "考勤机串口配置";
             // 
-            // comboBox_school_port
+            // comboBox_port
             // 
-            this.comboBox_school_port.FormattingEnabled = true;
-            this.comboBox_school_port.Location = new System.Drawing.Point(127, 66);
-            this.comboBox_school_port.Name = "comboBox_school_port";
-            this.comboBox_school_port.Size = new System.Drawing.Size(100, 20);
-            this.comboBox_school_port.TabIndex = 27;
+            this.comboBox_port.FormattingEnabled = true;
+            this.comboBox_port.Location = new System.Drawing.Point(127, 66);
+            this.comboBox_port.Name = "comboBox_port";
+            this.comboBox_port.Size = new System.Drawing.Size(100, 20);
+            this.comboBox_port.TabIndex = 27;
             // 
             // btn_set
             // 
@@ -142,22 +141,29 @@ namespace CqustRfidSystem
             this.btn_open.UseVisualStyleBackColor = true;
             this.btn_open.Click += new System.EventHandler(this.btn_open_Click_1);
             // 
-            // port
+            // button_close
             // 
-            this.port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.port_DataReceived);
+            this.button_close.Location = new System.Drawing.Point(639, 102);
+            this.button_close.Name = "button_close";
+            this.button_close.Size = new System.Drawing.Size(75, 23);
+            this.button_close.TabIndex = 36;
+            this.button_close.Text = "停用";
+            this.button_close.UseVisualStyleBackColor = true;
+            this.button_close.Click += new System.EventHandler(this.button_close_Click);
             // 
             // Attendence
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_close);
             this.Controls.Add(this.btn_open);
             this.Controls.Add(this.label_place);
             this.Controls.Add(this.label_student_id);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btn_set);
-            this.Controls.Add(this.comboBox_school_port);
+            this.Controls.Add(this.comboBox_port);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox_place);
@@ -176,13 +182,13 @@ namespace CqustRfidSystem
         private System.Windows.Forms.TextBox textBox_place;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox_school_port;
+        private System.Windows.Forms.ComboBox comboBox_port;
         private System.Windows.Forms.Button btn_set;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label_student_id;
         private System.Windows.Forms.Label label_place;
         private System.Windows.Forms.Button btn_open;
-        private System.IO.Ports.SerialPort port;
+        private System.Windows.Forms.Button button_close;
     }
 }

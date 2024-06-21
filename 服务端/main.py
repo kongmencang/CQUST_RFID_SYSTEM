@@ -41,8 +41,8 @@ card_id= "429E40E7"
 
 if __name__ == '__main__':
     # 开启自动打卡线程
-    scheduler_thread = threading.Thread(target=Attendance.auto_attendance)
-    scheduler_thread.daemon = True
-    scheduler_thread.start()
+    # scheduler_thread = threading.Thread(target=Attendance.auto_attendance)
+    # scheduler_thread.daemon = True
+    # scheduler_thread.start()
     # 启动路由
     router.run()

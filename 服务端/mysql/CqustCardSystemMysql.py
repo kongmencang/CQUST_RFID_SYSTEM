@@ -90,7 +90,7 @@ class CqustCardSystemMysql(BaseMysql):
 
     def add_card_to_rfid_info(self,sno,card_id):
         try:
-            insert_data={"card_id":card_id,"sno":sno}
+            insert_data={"card_id":card_id,"sno":sno,"card_state":"1"}
             result =self.base_insert_value_to_table(table_name=MYSQL_RFID_INFO_TABLE,insert_data=insert_data)
             return result
         except Exception as e:
@@ -517,6 +517,11 @@ class CqustCardSystemMysql(BaseMysql):
         else:
             return None
     def get_course_name_by_scheduing_id(self,scheduing_id):
+        """
+        获取教师教的所有课程
+        :param scheduing_id:
+        :return:
+        """
         sql ="select course_name from course_base_info where course_id = (select course_id from scheduling_info where scheduling_id = %s)"
         result = self.base_select_sql(sql,(scheduing_id,))
         if result:
@@ -525,10 +530,15 @@ class CqustCardSystemMysql(BaseMysql):
             return  None
 
     def get_attendance_info(self,argument):
-        sql="""
+        """
+        打卡记录查询
+        :param argument:
+        :return:
+        """
+        base_sql="""
         
-        select addtime,attendance_info.sno,student_info.name,class_info.class_name,course_base_info.course_name,
-attendance_info.place,course_sections,teacher_info.teacher_name,attendance_info.state ,counselor_info.teacher_name as counselor_name
+        select attendance_info.id, addtime,attendance_info.sno,student_info.name,class_info.class_name,course_base_info.course_name,
+attendance_info.place,course_sections,teacher_info.teacher_name,counselor_info.teacher_name as counselor_name,attendance_info.state 
 
 from attendance_info ,scheduling_info ,teacher_info ,student_info,class_info,course_base_info,teacher_info as counselor_info,
 subject_info,department_info,school_info
@@ -542,20 +552,52 @@ and class_info.counsellor_id = counselor_info.teacher_id
 and department_info.department_id =subject_info.department_id
 and department_info.school_id =school_info.school_id
 and class_info.subject_id = subject_info.subject_id
+and scheduling_info.state="1"
+and """
 
-and school_name ="智能技术与工程学院"
-and department_name="物联网系"
-and subject_name ='物联网工程'
-and class_name ="物工2001-01"
-and weekday='4'
-and course_sections='3'
-and scheduling_info.teacher_id="0101000001"
-and attendance_info.state='2'
-and addtime >= '2024-06-20 00:00:00'
-and addtime <= '2024-06-21 00:00:00'
-and attendance_info.scheduling_id='2024000001';
+        start_time =argument["start_time"]
+        end_time =argument["end_time"]
+        del argument["start_time"]
+        del argument["end_time"]
+        if start_time != "" and end_time == "":
+            base_sql = base_sql+f"  addtime >= '{start_time}' and "
+        elif start_time == "" and end_time != "":
+            base_sql =base_sql+f"  addtime <= '{end_time}' and "
+        elif start_time != "" and end_time != "":
+            base_sql += f"  addtime >={start_time} and addtime <={end_time} and"
 
-        """
+        for key in list(argument.keys()):
+            if argument[key] == "":
+                del argument[key]
+        print(argument)
+        sql = self.base_build_query_with_arguments(base_sql, argument)
+
+        result = self.base_select_sql(sql, argument)
+        ans=[]
+        if result:
+            for i in result:
+                ans.append( {
+                    'id': i[0],
+                    'addtime': i[1],
+                    'sno': i[2],
+                    'sname': i[3],
+                    'class_name': i[4],
+                    'course_name': i[5],
+                    'place': i[6],
+                    'course_sections': i[7],
+                    'teacher_name': i[8],
+                    'counselor_name': i[9],
+                    'state': i[10]
+                })
+        return ans
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     # a={"school_id":"0100000000"}
     mysql_cqust_rfid = CqustCardSystemMysql(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST)

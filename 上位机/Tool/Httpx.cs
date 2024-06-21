@@ -23,8 +23,6 @@ namespace CqustRfidSystem.Tool
                     var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                     httpClient.DefaultRequestHeaders.Add("X-University", "CQUST");
-
-
                     // 发送POST请求并获取响应
                     HttpResponseMessage response = httpClient.PostAsync(url, content).Result;
 

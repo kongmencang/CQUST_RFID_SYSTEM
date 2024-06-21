@@ -10,9 +10,9 @@ namespace CqustRfidSystem
     internal class share_info
     {
         //用户相关
-        public static string user_power="2";
+        public static string user_power="3";
         public static string user_name;
-        public static string user_id= "0101000001";
+        public static string user_id= "0101000002";
         public static string user_school= "0100000000";
         //排课信息
         public static JArray scheduling_info= new JArray();

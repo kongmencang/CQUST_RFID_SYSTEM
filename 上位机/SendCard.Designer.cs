@@ -49,11 +49,11 @@
             this.lable_student_name = new System.Windows.Forms.Label();
             this.log_text = new System.Windows.Forms.RichTextBox();
             this.panel_portconf = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.BaudRate = new System.Windows.Forms.ComboBox();
             this.PortName = new System.Windows.Forms.ComboBox();
             this.b_lable = new System.Windows.Forms.Label();
             this.p_lable = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.配置串口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -226,7 +226,7 @@
             // 
             this.log_text.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.log_text.Location = new System.Drawing.Point(9, 238);
-            this.log_text.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.log_text.Margin = new System.Windows.Forms.Padding(2);
             this.log_text.Name = "log_text";
             this.log_text.Size = new System.Drawing.Size(576, 290);
             this.log_text.TabIndex = 21;
@@ -244,6 +244,21 @@
             this.panel_portconf.Size = new System.Drawing.Size(243, 158);
             this.panel_portconf.TabIndex = 22;
             this.panel_portconf.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(151)))), ((int)(((byte)(226)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("宋体", 12F);
+            this.button2.Location = new System.Drawing.Point(78, 132);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 36;
+            this.button2.Text = "确认";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // BaudRate
             // 
@@ -313,21 +328,6 @@
             this.p_lable.TabIndex = 32;
             this.p_lable.Text = "串口号";
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(151)))), ((int)(((byte)(226)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("宋体", 12F);
-            this.button2.Location = new System.Drawing.Point(78, 132);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 36;
-            this.button2.Text = "确认";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -378,6 +378,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SendCard";
             this.Text = "SendCard";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SendCard_FormClosed);
             this.Load += new System.EventHandler(this.SendCard_Load);
             this.panel_portconf.ResumeLayout(false);
             this.panel_portconf.PerformLayout();

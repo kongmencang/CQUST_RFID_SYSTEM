@@ -415,5 +415,9 @@ namespace CqustRfidSystem
 
         }
 
+        private void SendCard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Serialport.close_usrt(port); 
+        }
     }
 }

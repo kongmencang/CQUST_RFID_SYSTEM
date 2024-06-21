@@ -12,7 +12,9 @@ class Option(object):
             "not_have_card_stu_info": SearchInformation.get_not_have_card_stu_info_by_class,
             "scheduling_info": SearchInformation.get_scheduling_info,
             "course_info": SearchInformation.get_course_info,
-            "course_name_info": SearchInformation.get_course_name_schedule_id
+            "course_name_info": SearchInformation.get_course_name_schedule_id,
+            "attendance_info": SearchInformation.get_attendance_info,
+
         }
         # 根据 option 获取相应的函数
         action = actions.get(option, None)

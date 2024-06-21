@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace CqustRfidSystem
 {
@@ -22,6 +27,10 @@ namespace CqustRfidSystem
         string get_info_url = Config.BASE_URL + "get_info";
 
         private bool isProcessing = false;
+
+        Dictionary<string, string> argument = new Dictionary<string, string>();
+
+        Dictionary<string, string> state_flag = new Dictionary<string, string>();
 
 
         private JArray get_info(string infoName, Dictionary<string, string> infoArguments)
@@ -54,26 +63,63 @@ namespace CqustRfidSystem
 
         private void Attendence_info_manage_Load(object sender, EventArgs e)
         {
+            state_flag.Add("正常", "0");
+            state_flag.Add("迟到","1");
+            state_flag.Add("缺勤", "2");
+
+
+            monthCalendar1.Visible = false;
+            monthCalendar2.Visible = false;
             if (share_info.user_power == "0")
             {
                 RequestData("school_info", comboBox_school_name, share_info.user_manage_school, "school_name", "school_id");
                
             }
-            if (share_info.user_power == "2") { 
+            if (share_info.user_power == "2") { //授课教师
                 comboBox_department_name.Enabled = false;
                 comboBox_subject_name.Enabled = false;
                 comboBox_class_name.Enabled = false;           
                 //获取学院名
-                var dataArray = get_info("school_info", new Dictionary<string, string> { { "school_id", share_info.user_school } });
-                comboBox_school_name.Items.Add(dataArray[0].ToObject<Dictionary<string, string>>()["school_name"]);              
-                comboBox_school_name.SelectedIndex = 0;
-                //获取老师所教的课的排课id
-                dataArray = get_info("scheduling_info", new Dictionary<string, string> { { "teacher_id", share_info.user_id } });
-                share_info.scheduling_info = dataArray;
-                foreach(var item in dataArray){
-                    comboBox_scheduling_id.Items.Add(item.ToObject<Dictionary<string, string>>()["scheduling_id"]);            
+               
+                try
+                {
+                    var dataArray = get_info("school_info", new Dictionary<string, string> { { "school_id", share_info.user_school } });
+                    comboBox_school_name.Items.Add(dataArray[0].ToObject<Dictionary<string, string>>()["school_name"]);
+                    comboBox_school_name.SelectedIndex = 0;
+                    //获取老师所教的课的排课id
+                    dataArray = get_info("scheduling_info", new Dictionary<string, string> { { "teacher_id", share_info.user_id } });
+                    share_info.scheduling_info = dataArray;
+                    foreach (var item in dataArray)
+                    {
+                        comboBox_scheduling_id.Items.Add(item.ToObject<Dictionary<string, string>>()["scheduling_id"]);
+                    }
+                    comboBox_scheduling_id.Items.Add("");
                 }
-                comboBox_scheduling_id.Items.Add("");
+                catch { 
+                }
+                       
+             
+            }
+            if (share_info.user_power == "3") {//辅导员
+                comboBox_department_name.Enabled = false;
+                comboBox_subject_name.Enabled = false;
+                comboBox_scheduling_id.Enabled = false;
+                try
+                {
+                    var dataArray = get_info("school_info", new Dictionary<string, string> { { "school_id", share_info.user_school } });
+                    comboBox_school_name.Items.Add(dataArray[0].ToObject<Dictionary<string, string>>()["school_name"]);
+                    comboBox_school_name.SelectedIndex = 0;
+                    //获取所带班级
+                    dataArray = get_info("class_info", new Dictionary<string, string> { { "counsellor_id", share_info.user_id } });
+                    foreach (var item in dataArray)
+                    {
+                        comboBox_class_name.Items.Add(item.ToObject<Dictionary<string, string>>()["class_name"]);
+                    }
+                    comboBox_class_name.Items.Add("");
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -106,6 +152,7 @@ namespace CqustRfidSystem
                 else if (flag == Config.FLAG_OK && response.TryGetValue("data", out object dataValue) && dataValue is JArray dataArray)
                 {
                     comboBox.Items.Clear();
+                    comboBox.Items.Add("");
                     storageDict.Clear();
                     foreach (var item in dataArray)
                     {
@@ -266,7 +313,86 @@ namespace CqustRfidSystem
 
         private void load_sno_btn_Click(object sender, EventArgs e)
         {
+            argument.Clear();
+            argument.Add("school_name",comboBox_school_name.Text);
+            argument.Add("department_name", comboBox_department_name.Text);
+            argument.Add("subject_name", comboBox_subject_name.Text);
+            argument.Add("class_name", comboBox_class_name.Text);
+            argument.Add("weekday", comboBox_weekday.Text);
+            argument.Add("course_sections", comboBox_course_section.Text);
+            argument.Add("attendance_info.scheduling_id", comboBox_scheduling_id.Text);
+            argument.Add("start_time", textBox_again_time.Text);
+            argument.Add("end_time", textBox_end_time.Text);
+            argument.Add("attendance_info.sno", textbox_sno.Text);
+        
+            if (comboBox_state.Text != "") {
+                argument.Add("attendance_info.state", state_flag[comboBox_state.Text]);
+            }
+           
+            if (share_info.user_power == "2") {
+                argument.Add("teacher_info.teacher_id", share_info.user_id);
+            }
+            if (share_info.user_power == "3") {
+                argument.Add("class_info.counsellor_id", share_info.user_id);
+                // class_info.counsellor_id = '0101000002'
+            }
+            var dataArray = get_info("attendance_info", argument);
+            data_table.Rows.Clear();//清处表格数据
+
+            foreach (var i in dataArray)
+            {
+                //解析数据绘制表格
+                int j = data_table.Rows.Add();
+
+                data_table.Rows[j].Cells[0].Value = i["id"];
+                data_table.Rows[j].Cells[1].Value = i["addtime"];
+                data_table.Rows[j].Cells[2].Value = i["sno"];
+                data_table.Rows[j].Cells[3].Value = i["sname"];
+                data_table.Rows[j].Cells[4].Value = i["class_name"];
+                data_table.Rows[j].Cells[5].Value = i["course_name"];
+                data_table.Rows[j].Cells[6].Value = i["place"];
+                data_table.Rows[j].Cells[7].Value = i["course_sections"];
+                data_table.Rows[j].Cells[8].Value = i["teacher_name"];
+                data_table.Rows[j].Cells[9].Value = i["counselor_name"];
+                data_table.Rows[j].Cells[10].Value = i["state"];
+
+
+
+            }
+
+       
+        }
+
+        private void pictureBox_c1_Click(object sender, EventArgs e)
+        {
+            monthCalendar1.Visible = true;
+     
+        }
+
+        private void pictureBox_c2_Click(object sender, EventArgs e)
+        {
+            monthCalendar2.Visible = true;
+        }
+
+      
+    
+
+        private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            DateTime start = monthCalendar1.SelectionRange.Start;
+            string s = start.ToString("yyyy-MM-dd 00:00:00", CultureInfo.InvariantCulture);
+            textBox_again_time.Text = s;
+            monthCalendar1.Visible = false;
 
         }
+
+        private void monthCalendar2_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            DateTime start = monthCalendar1.SelectionRange.Start;
+            string s = start.ToString("yyyy-MM-dd 00:00:00", CultureInfo.InvariantCulture);
+            textBox_end_time.Text = s;
+            monthCalendar2.Visible = false;
+        }
     }
+    
 }

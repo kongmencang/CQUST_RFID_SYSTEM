@@ -101,11 +101,22 @@ class SearchInformation:
     def get_course_name_schedule_id(cls,argument):
         """
         排课号获取课程名
-        :param scheduling_id:
+        :param {scheduling_id:scheduling_id}
         :return:
         """
         try:
-            print(argument)
             return {"flag":FLAG_OK,"data":mysql_cqust_rfid.get_course_name_by_scheduing_id(argument["scheduling_id"])}
+        except:
+            return {"flag":FLAG_ERROR}
+    @classmethod
+    def get_attendance_info(cls,argument):
+        """
+        打卡情况查询
+        :param :
+        :return:
+        """
+        try:
+            return  {"flag": FLAG_OK, "data": mysql_cqust_rfid.get_attendance_info(argument)}
+
         except:
             return {"flag":FLAG_ERROR}
