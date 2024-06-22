@@ -152,7 +152,8 @@ namespace CqustRfidSystem
                 else if (flag == Config.FLAG_OK && response.TryGetValue("data", out object dataValue) && dataValue is JArray dataArray)
                 {
                     comboBox.Items.Clear();
-                    comboBox.Items.Add("");
+                    if (infoName != "school_info") { comboBox.Items.Add(""); }
+                   
                     storageDict.Clear();
                     foreach (var item in dataArray)
                     {
@@ -258,41 +259,7 @@ namespace CqustRfidSystem
             }
         }
 
-        private void comboBox_school_name_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!isProcessing)
-            {
-                ClearDependentComboboxes(comboBox_school_name);
-                UpdateDependentComboboxes("department_info");
-            }
-        }
-
-        private void comboBox_department_name_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!isProcessing)
-            {
-                ClearDependentComboboxes(comboBox_department_name);
-                UpdateDependentComboboxes("subject_info");
-            }
-        }
-
-        private void comboBox_subject_name_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!isProcessing)
-            {
-                ClearDependentComboboxes(comboBox_subject_name);
-                UpdateDependentComboboxes("class_info");
-            }
-        }
-
-        private void comboBox_school_name_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            if (!isProcessing)
-            {
-                ClearDependentComboboxes(comboBox_school_name);
-                UpdateDependentComboboxes("department_info");
-            }
-        }
+       
 
         private void comboBox_scheduling_id_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -392,6 +359,33 @@ namespace CqustRfidSystem
             string s = start.ToString("yyyy-MM-dd 00:00:00", CultureInfo.InvariantCulture);
             textBox_end_time.Text = s;
             monthCalendar2.Visible = false;
+        }
+
+        private void comboBox_school_name_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!isProcessing)
+            {
+                ClearDependentComboboxes(comboBox_school_name);
+                UpdateDependentComboboxes("department_info");
+            }
+        }
+
+        private void comboBox_department_name_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!isProcessing)
+            {
+                ClearDependentComboboxes(comboBox_department_name);
+                UpdateDependentComboboxes("subject_info");
+            }
+        }
+
+        private void comboBox_subject_name_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!isProcessing)
+            {
+                ClearDependentComboboxes(comboBox_subject_name);
+                UpdateDependentComboboxes("class_info");
+            }
         }
     }
     

@@ -83,7 +83,7 @@ namespace CqustRfidSystem
                                     {
                                         string user_name = userNameJValue2.Value.ToString();
                                         share_info.user_name = user_name;
-                                        MessageBoxTimeOut.Show($"欢迎用户：{user_name}","登陆成功",3000);
+                                    
 
                                     }
                                     if (dataObject2.TryGetValue("user_power", out var userPowerValue2) && userPowerValue2 is JValue userPowerJValue2)
@@ -99,6 +99,11 @@ namespace CqustRfidSystem
 
                                     }
                                     share_info.user_id = user_id.Text;
+                                    MainForm mf = new MainForm();
+                                    mf.Show();
+                                    this.Hide();
+                                
+                                   
                                 }
                                 break;
                         }

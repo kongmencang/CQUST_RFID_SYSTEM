@@ -205,6 +205,7 @@ namespace CqustRfidSystem
             this.comboBox_subject_name.Name = "comboBox_subject_name";
             this.comboBox_subject_name.Size = new System.Drawing.Size(100, 20);
             this.comboBox_subject_name.TabIndex = 76;
+            this.comboBox_subject_name.SelectedIndexChanged += new System.EventHandler(this.comboBox_subject_name_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -254,6 +255,7 @@ namespace CqustRfidSystem
             this.comboBox_department_name.Name = "comboBox_department_name";
             this.comboBox_department_name.Size = new System.Drawing.Size(100, 20);
             this.comboBox_department_name.TabIndex = 73;
+            this.comboBox_department_name.SelectedIndexChanged += new System.EventHandler(this.comboBox_department_name_SelectedIndexChanged);
             // 
             // textbox_sno
             // 
@@ -288,6 +290,7 @@ namespace CqustRfidSystem
             this.comboBox_school_name.Name = "comboBox_school_name";
             this.comboBox_school_name.Size = new System.Drawing.Size(100, 20);
             this.comboBox_school_name.TabIndex = 71;
+            this.comboBox_school_name.SelectedIndexChanged += new System.EventHandler(this.comboBox_school_name_SelectedIndexChanged);
             // 
             // label3
             // 

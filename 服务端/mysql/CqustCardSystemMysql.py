@@ -90,7 +90,7 @@ class CqustCardSystemMysql(BaseMysql):
 
     def add_card_to_rfid_info(self,sno,card_id):
         try:
-            insert_data={"card_id":card_id,"sno":sno,"card_state":"1"}
+            insert_data={"card_id":card_id,"sno":sno}
             result =self.base_insert_value_to_table(table_name=MYSQL_RFID_INFO_TABLE,insert_data=insert_data)
             return result
         except Exception as e:
@@ -249,7 +249,7 @@ class CqustCardSystemMysql(BaseMysql):
     """
     考勤相关
     """
-    def add_attendence_to_attendence_info(self,addtime,sno,course_sections,cno,state,place):
+    def add_attendence_to_attendence_info(self,addtime,sno,course_sections,scheduling_id,state,place):
         """
         添加考勤信息
         :param addtime:
@@ -261,11 +261,11 @@ class CqustCardSystemMysql(BaseMysql):
         :return:
         """
         try:
-            insert_data={"addtime":addtime,"sno":sno,'course_sections':course_sections,'cno':cno,'state':state,'place':place}
+            insert_data={"addtime":addtime,"sno":sno,'course_sections':course_sections,'scheduling_id':scheduling_id,'state':state,'place':place}
             result =self.base_insert_value_to_table(table_name=MYSQL_ATTENDENCE_INFO_TABLE,insert_data=insert_data)
             return result
         except Exception as e:
-            print("错误来自于 add_attendence_to_attendence_info， 参数{} {} ".format(addtime,sno,str(course_sections),cno,str(state),place)+e)
+            print("错误来自于 add_attendence_to_attendence_info， 参数{} {} ".format(addtime,sno,str(course_sections),scheduling_id,str(state),place)+e)
     def get_stu_is_attendence_info_by_time(self,sno,starttime,endtime):
         sql=f"""
             SELECT *
@@ -591,7 +591,56 @@ and """
                 })
         return ans
 
+    def get_absence_student_sno_and_scheduling_id_by_time(self, start_time, end_time):
+        """
+        查询时间点里缺勤的学生学号和课程编号
+        :param start_time:
+        :param end_time:
+        :return:
+        """
+        sql = f"select * from {MYSQL_ATTENDENCE_INFO_TABLE} where addtime >=%sand addtime <=%s and state ='2'"
+        result = self.base_select_sql(sql,(start_time,end_time))
+        sno_list=[]
+        for i in result:
+            sno_list.append((i[2],i[4]))
+        return sno_list
+    def get_student_name_class_name_counsellor_name_by_sno(self, sno):
+        """
+        根据学号查辅导员和班级名
+        :param sno:
+        :return:
+        """
+        sql ="""
+        select student_info.name,teacher_info.teacher_name,class_info.class_name 
+        from student_info,class_info,teacher_info where student_info.class_id = class_info.class_id
+        and teacher_info.teacher_id=class_info.counsellor_id and student_info.sno =%s
+        """
+        result =self.base_select_sql(sql,params=(sno,))
+        if result:
+            return {'sname':result[0][0],'counsellor_name':result[0][1],'class_name':result[0][2]}
+        else:
+            return None
 
+    def get_course_name_by_scheduling_id(self, scheduling_id):
+        """
+        排课号获取课程名
+        :param scheduling_id:
+        :return:
+        """
+        sql ="""
+        select course_name from scheduling_info,course_base_info 
+where scheduling_info.course_id=course_base_info.course_id
+and scheduling_id=%s
+        """
+        result =self.base_select_sql(sql,params=(scheduling_id,))
+        if result:
+            return result[0][0]
+        else:
+            return None
+    def get_teacher_email_by_teacher_name(self,teacher_name):
+        result =self.base_get_attribute_value_by_table_and_one_condition(table_name=MYSQL_TEACHER_INFO_TABLE,
+                                                                         attribute_name="teacher_email",condition_name="teacher_name",condition_value=teacher_name)
+        return result[0][0]
 
 
 
@@ -601,3 +650,4 @@ and """
 if __name__ == '__main__':
     # a={"school_id":"0100000000"}
     mysql_cqust_rfid = CqustCardSystemMysql(MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST)
+    print(mysql_cqust_rfid.get_teacher_email_by_teacher_name("李根"))

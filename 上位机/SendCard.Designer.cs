@@ -58,6 +58,7 @@
             this.配置串口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.port = new System.IO.Ports.SerialPort(this.components);
+            this.button3 = new System.Windows.Forms.Button();
             this.panel_portconf.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -231,15 +232,17 @@
             this.log_text.Size = new System.Drawing.Size(576, 290);
             this.log_text.TabIndex = 21;
             this.log_text.Text = "";
+            this.log_text.TextChanged += new System.EventHandler(this.log_text_TextChanged);
             // 
             // panel_portconf
             // 
+            this.panel_portconf.Controls.Add(this.button3);
             this.panel_portconf.Controls.Add(this.button2);
             this.panel_portconf.Controls.Add(this.BaudRate);
             this.panel_portconf.Controls.Add(this.PortName);
             this.panel_portconf.Controls.Add(this.b_lable);
             this.panel_portconf.Controls.Add(this.p_lable);
-            this.panel_portconf.Location = new System.Drawing.Point(167, 219);
+            this.panel_portconf.Location = new System.Drawing.Point(304, 79);
             this.panel_portconf.Name = "panel_portconf";
             this.panel_portconf.Size = new System.Drawing.Size(243, 158);
             this.panel_portconf.TabIndex = 22;
@@ -252,7 +255,7 @@
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(151)))), ((int)(((byte)(226)))));
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("宋体", 12F);
-            this.button2.Location = new System.Drawing.Point(78, 132);
+            this.button2.Location = new System.Drawing.Point(38, 121);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 36;
@@ -349,6 +352,21 @@
             // 
             this.port.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.port_DataReceived);
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(243)))), ((int)(((byte)(255)))));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(151)))), ((int)(((byte)(226)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("宋体", 12F);
+            this.button3.Location = new System.Drawing.Point(127, 121);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 37;
+            this.button3.Text = "取消";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // SendCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -420,5 +438,6 @@
         private System.Windows.Forms.ToolStripMenuItem 配置串口ToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.IO.Ports.SerialPort port;
+        private System.Windows.Forms.Button button3;
     }
 }

@@ -68,6 +68,12 @@
     <Compile Include="logincs.Designer.cs">
       <DependentUpon>logincs.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="logincs.resx">
       <DependentUpon>logincs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SendCard.resx">
       <DependentUpon>SendCard.cs</DependentUpon>

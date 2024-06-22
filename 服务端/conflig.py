@@ -1,4 +1,9 @@
 import os
+
+from jinja2 import Environment, FileSystemLoader
+
+from tool.Email import Email
+
 """
 项目路径
 """
@@ -89,11 +94,11 @@ COURSE_TIMES = [
 ]
 
 COURSE_TIMES = [
-    ("19:22:30", "10:10:00"), #第一节课开始结束时间
-    ("19:22:40", "12:10:00"),
-    ("19:22:50", "15:40:00"),
-    ("19:22:55", "17:40:00"),
-    ("19:22:57", "21:40:00"),
+    ("18:00:01", "10:10:00"), #第一节课开始结束时间
+    ("18:00:40", "12:10:00"),
+    ("18:00:50", "15:40:00"),
+    ("18:00:55", "17:40:00"),
+    ("18:04:50", "21:40:00"),
     ("19:23:01", "21:40:00"),#第六节课开始结束时间
 ]
 
@@ -107,6 +112,30 @@ COURSE_LATE_TIME = 5
 COURSE_AGAIN_TIME = 5
 # 打卡关闭时间
 COURSE_ABSENCE_TIME = 20
+
 COURSE_ABSENCE_TIME = 0
 
 TERM_TIME= "202301"
+
+"""
+邮件配置相关
+"""
+#地址 端口 用户名 权限码（自己去邮箱申请） 发送名
+EMAIL_SMTP = "smtp.qq.com"
+EMAIL_SMTP_PORT =465
+EMAIL_USER = "key_for_door@qq.com"
+EMAIL_PASSWORD = "vjzifsbdndvvidhj"
+EMAIL_SEND_NAME="重庆科技大学"
+#邮箱对象
+EMAIL_QQ = Email(email_smtp=EMAIL_SMTP, email_port=EMAIL_SMTP_PORT, email_username=EMAIL_USER,
+                 email_password=EMAIL_PASSWORD, email_send_name=EMAIL_SEND_NAME)
+
+#缺勤模版
+env = Environment(loader=FileSystemLoader("./templates"))
+ABSENCE_EMAIL_MODE = env.get_template('absence_email_mode.html')
+"""r = temp.render(
+    counsellor_name="yyy",
+    student_names="2222",
+    again_time="sdasda",
+    course_name="dsadad"
+)"""

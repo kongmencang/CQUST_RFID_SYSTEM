@@ -51,6 +51,7 @@ namespace CqustRfidSystem
             this.log_text.Size = new System.Drawing.Size(576, 290);
             this.log_text.TabIndex = 22;
             this.log_text.Text = "";
+            this.log_text.TextChanged += new System.EventHandler(this.log_text_TextChanged);
             // 
             // textBox_place
             // 

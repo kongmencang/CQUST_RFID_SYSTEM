@@ -116,7 +116,7 @@ namespace CqustRfidSystem
                         log_text.Invoke((MethodInvoker)delegate
                           {
                               log_text.SelectionColor = Color.Green;
-                              log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")}Rfid_reader: 设置地址 {textBox_place.Text} 成功" + Environment.NewLine);
+                              log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")} Rfid_reader:  串口 {uart.PortName}  设置地址 {textBox_place.Text} 成功" + Environment.NewLine);
 
                           });
                         is_first_re_ok = false;
@@ -219,6 +219,12 @@ namespace CqustRfidSystem
             if (comboBox_port.Text != null) {
                 Serialport.close_usrt(sp[comboBox_port.Text]);
             }
+        }
+
+        private void log_text_TextChanged(object sender, EventArgs e)
+        {
+            log_text.SelectionStart = log_text.Text.Length;
+            log_text.ScrollToCaret();
         }
     }
 }

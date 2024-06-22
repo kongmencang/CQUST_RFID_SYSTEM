@@ -25,7 +25,7 @@ namespace CqustRfidSystem
 
 
 
-        private void requirt_add_card(string card_id, string sno)
+        private bool requirt_add_card(string card_id, string sno)
         {
             // 准备发送的数据
             var postData = new Dictionary<string, object>
@@ -46,12 +46,15 @@ namespace CqustRfidSystem
                     {
                         case Config.FLAG_ERROR:
                             MessageBox.Show("请求错误", "警告");
+                            return false;
                             break;
                         case Config.FLAG_NOT_STUDENT:
                             MessageBox.Show("学生不存在", "警告");
+                            return false;
                             break; // 这种情况应该已经排除了
                         case Config.FLAG_USER_HAVE_CARD:
                             MessageBox.Show("该用户已经有卡了", "警告");
+                            return false;
                             break; // 这种情况也已经排除了  
                         case Config.FLAG_CARD_IS_USING:
                             // 如果卡片正在使用，获取绑定的学生姓名
@@ -61,30 +64,45 @@ namespace CqustRfidSystem
                                 {
                                     string stu_name = userNameJValue.Value.ToString();
                                     MessageBox.Show($"该卡片已绑定学生 {stu_name}", "警告");
+                                    return false;
                                 }
                             }
                             break;
                         case Config.FLAG_ADD_CARD_NOT_SUCCESS:
                             MessageBox.Show("卡片注册失败", "警告");
+                            return false;
                             break; // 防止恶意请求  
                         case Config.FLAG_OK:
-                            // 如果卡片绑定成功，获取学生姓名并更新日志和界面
-                            if (response.TryGetValue("data", out object dataValue2) && dataValue2 is JObject dataObject2)
                             {
-                                if (dataObject2.TryGetValue("name", out var userNameValue2) && userNameValue2 is JValue userNameJValue2)
-                                {
-                                    string stu_name = userNameJValue2.Value.ToString();
-                                    log_text.SelectionColor = Color.Blue;
-                                    log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学生 {stu_name} 绑定卡片 {card_id} 成功" + Environment.NewLine);
 
-                                    ClearDependentComboboxes(comboBox_student_id);
-                                    UpdateDependentComboboxes("not_have_card_stu_info");
+                                // 如果卡片绑定成功，获取学生姓名并更新日志和界面
+                                if (response.TryGetValue("data", out object dataValue2) && dataValue2 is JObject dataObject2)
+                                {
+                                    if (dataObject2.TryGetValue("name", out var userNameValue2) && userNameValue2 is JValue userNameJValue2)
+                                    {
+                                        string stu_name = userNameJValue2.Value.ToString();
+                                        log_text.SelectionColor = Color.Blue;                                  
+                                        log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学生 {stu_name} 绑定卡片 {card_id} 成功" + Environment.NewLine);
+                                       
+                                        string send_data = "w" + comboBox_student_id.Text.Trim() + "0000#";
+                                        Serialport.send_string_to_byte_data(port, send_data);
+                                        ClearDependentComboboxes(comboBox_student_id);
+                                        UpdateDependentComboboxes("not_have_card_stu_info");
+                                    }
                                 }
+
+                          
+
+                                return true;
+
                             }
+          
+                        
                             break;
                     }
                 }
             }
+            return false;
         }
 
         public SendCard()
@@ -99,9 +117,8 @@ namespace CqustRfidSystem
               
                 RequestData("school_info", comboBox_school_name, share_info.user_manage_school, "school_name", "school_id");
             }
-            port.PortName = "COM10";
-            port.BaudRate = port_baudrate;
-            Serialport.open_usrt(port);
+       
+           
         }
 
         private void RequestData(string infoName, ComboBox comboBox, Dictionary<string, string> storageDict, string displayName, string idName)
@@ -273,6 +290,9 @@ namespace CqustRfidSystem
                         UpdateDependentComboboxes("not_have_card_stu_info");
                         break;
                     case "not_have_card_stu_info":
+                        comboBox_student_id.Items.Clear() ;
+                        comboBox_student_id.Text = "";
+                        lable_student_name.Text = "";
                         RequestData(nextInfoName, comboBox_student_id, share_info.user_manage_student, "student_id", "student_name");
                         if (comboBox_student_id.Items.Count != 0)
                         {
@@ -306,6 +326,7 @@ namespace CqustRfidSystem
         private void 配置串口ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             panel_portconf.Visible = true;
+            PortName.Items.Clear();
             string[] ports = SerialPort.GetPortNames();//获取计算机可用串口
             if (ports.Length > 0)
             {
@@ -313,7 +334,6 @@ namespace CqustRfidSystem
                 PortName.SelectedIndex = 0;
                 BaudRate.Text = "4800";
                
-
             }
             
         }
@@ -324,6 +344,7 @@ namespace CqustRfidSystem
             port_baudrate = int.Parse(BaudRate.Text);
             port.PortName = port_name;
             port.BaudRate = port_baudrate;
+            Serialport.open_usrt(port);
             panel_portconf.Visible = false;
         }
 
@@ -332,10 +353,12 @@ namespace CqustRfidSystem
         {
             if (!card_id.Text.Equals("") && !comboBox_student_id.Text.Equals(""))
             {
-                string send_data = "w" + comboBox_student_id.Text.Trim() + "0000#";
-                requirt_add_card(card_id.Text, comboBox_student_id.Text);
-                Serialport.send_string_to_byte_data(port, send_data);
-                card_id.Text = "";
+      
+               var result= requirt_add_card(card_id.Text, comboBox_student_id.Text);
+                if (result){
+            
+                }
+                
             }
             else {
                 MessageBox.Show("请先获取学号/卡号", "提示");
@@ -392,7 +415,7 @@ namespace CqustRfidSystem
                     });
 
                 }
-                else if (data.StartsWith("cardid") || data.StartsWith("ardid") && data[15] == '#')
+                else if (data.StartsWith("cardid")  && data[15] == '#')
                 {
                   
 
@@ -418,6 +441,18 @@ namespace CqustRfidSystem
         private void SendCard_FormClosed(object sender, FormClosedEventArgs e)
         {
             Serialport.close_usrt(port); 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            panel_portconf.Visible = false;
+        }
+
+        private void log_text_TextChanged(object sender, EventArgs e)
+        {
+            log_text.SelectionStart = log_text.Text.Length; 
+            log_text.ScrollToCaret(); 
+
         }
     }
 }
