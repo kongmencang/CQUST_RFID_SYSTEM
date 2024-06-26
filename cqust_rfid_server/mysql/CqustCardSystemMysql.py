@@ -320,6 +320,12 @@ class CqustCardSystemMysql(BaseMysql):
                     self.base_insert_value_to_table(MYSQL_ATTENDENCE_INFO_TABLE,insert_data)
         return
 
+    def set_attendance_state(self,sno,state,addtime):
+        update_sql = "update attendance_info set state=%s where sno=%s and addtime=%s"
+        param = (state,sno,addtime)
+        result = self.base_control_sql(update_sql,param)
+        return result
+
     """
     下面是信息综合查询相关
     """
@@ -564,7 +570,7 @@ and """
         elif start_time == "" and end_time != "":
             base_sql =base_sql+f"  addtime <= '{end_time}' and "
         elif start_time != "" and end_time != "":
-            base_sql += f"  addtime >={start_time} and addtime <={end_time} and"
+            base_sql += f"  addtime >='{start_time}' and addtime <='{end_time}' and "
 
         for key in list(argument.keys()):
             if argument[key] == "":
@@ -598,7 +604,7 @@ and """
         :param end_time:
         :return:
         """
-        sql = f"select * from {MYSQL_ATTENDENCE_INFO_TABLE} where addtime >=%sand addtime <=%s and state ='2'"
+        sql = f"select * from {MYSQL_ATTENDENCE_INFO_TABLE} where addtime >=%s and addtime <=%s and state ='2'"
         result = self.base_select_sql(sql,(start_time,end_time))
         sno_list=[]
         for i in result:

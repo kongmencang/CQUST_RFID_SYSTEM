@@ -352,7 +352,7 @@ void main()
             }
             if (received_data[1] == 'p')
             {
-                display_sno(SECOND_ROW);
+                display_sno(THIRD_ROW);
                 if (received_data[2] == '1')
                     display_kao_qing_shi_bai(THIRD_ROW);
                 if (received_data[2] == '2')

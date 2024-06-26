@@ -63,6 +63,48 @@ namespace CqustRfidSystem
 
         private void Attendence_info_manage_Load(object sender, EventArgs e)
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.data_table.AllowUserToAddRows = false;
+            this.data_table.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
+            this.data_table.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.data_table.BackgroundColor = System.Drawing.Color.White;
+            this.data_table.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+
+            this.data_table.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;//211, 223, 240
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(223)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.data_table.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.data_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.data_table.EnableHeadersVisualStyles = false;
+            this.data_table.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.data_table.ReadOnly = true;
+            this.data_table.RowHeadersVisible = false;
+            this.data_table.RowTemplate.Height = 23;
+            this.data_table.RowTemplate.ReadOnly = true;
+            data_table.AllowUserToAddRows = false;
+            data_table.ReadOnly = true;
+            data_table.AllowUserToResizeColumns = false;
+            data_table.AllowUserToResizeRows = false;
+            data_table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            data_table.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.data_table.Columns[0].Width = 25;
+            this.data_table.Columns[1].Width = 120;
+            this.data_table.Columns[2].Width = 70;
+            this.data_table.Columns[3].Width = 50;
+            this.data_table.Columns[4].Width = 80;
+            this.data_table.Columns[5].Width = 90;
+            this.data_table.Columns[6].Width = 40;
+            this.data_table.Columns[7].Width = 40;
+            this.data_table.Columns[8].Width = 45;
+            this.data_table.Columns[9].Width = 50;
+            this.data_table.Columns[10].Width = 45;
+
             state_flag.Add("正常", "0");
             state_flag.Add("迟到","1");
             state_flag.Add("缺勤", "2");
@@ -73,7 +115,9 @@ namespace CqustRfidSystem
             if (share_info.user_power == "0")
             {
                 RequestData("school_info", comboBox_school_name, share_info.user_manage_school, "school_name", "school_id");
-               
+                label9.Visible = false;
+                label_course_name.Visible = false;
+                context_menu.Enabled = false;
             }
             if (share_info.user_power == "2") { //授课教师
                 comboBox_department_name.Enabled = false;
@@ -261,27 +305,10 @@ namespace CqustRfidSystem
 
        
 
-        private void comboBox_scheduling_id_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBox_scheduling_id.Text == "")
-            {
-                label_course_name.Text = "";
-            }
-            else {
-                var dataArray = get_info("course_name_info", new Dictionary<string, string> { { "scheduling_id", comboBox_scheduling_id.Text } });
-            
-                label_course_name.Text=dataArray[0].ToObject<Dictionary<string, string>>()["course_name"];
-            }
-            
-               
-           
-            
-        }
 
-        private void load_sno_btn_Click(object sender, EventArgs e)
-        {
+        private void refresh() {
             argument.Clear();
-            argument.Add("school_name",comboBox_school_name.Text);
+            argument.Add("school_name", comboBox_school_name.Text);
             argument.Add("department_name", comboBox_department_name.Text);
             argument.Add("subject_name", comboBox_subject_name.Text);
             argument.Add("class_name", comboBox_class_name.Text);
@@ -291,15 +318,18 @@ namespace CqustRfidSystem
             argument.Add("start_time", textBox_again_time.Text);
             argument.Add("end_time", textBox_end_time.Text);
             argument.Add("attendance_info.sno", textbox_sno.Text);
-        
-            if (comboBox_state.Text != "") {
+
+            if (comboBox_state.Text != "")
+            {
                 argument.Add("attendance_info.state", state_flag[comboBox_state.Text]);
             }
-           
-            if (share_info.user_power == "2") {
+
+            if (share_info.user_power == "2")
+            {
                 argument.Add("teacher_info.teacher_id", share_info.user_id);
             }
-            if (share_info.user_power == "3") {
+            if (share_info.user_power == "3")
+            {
                 argument.Add("class_info.counsellor_id", share_info.user_id);
                 // class_info.counsellor_id = '0101000002'
             }
@@ -321,13 +351,30 @@ namespace CqustRfidSystem
                 data_table.Rows[j].Cells[7].Value = i["course_sections"];
                 data_table.Rows[j].Cells[8].Value = i["teacher_name"];
                 data_table.Rows[j].Cells[9].Value = i["counselor_name"];
-                data_table.Rows[j].Cells[10].Value = i["state"];
-
-
+                string state = (string)i["state"];
+                if (state.Equals("0"))
+                {
+                    data_table.Rows[j].Cells[10].Value = "正常";
+                }
+                if (state.Equals("1"))
+                {
+                    data_table.Rows[j].Cells[10].Value = "迟到";
+                }
+                if (state.Equals("2"))
+                {
+                    data_table.Rows[j].Cells[10].Value = "缺勤";
+                }
 
             }
 
-       
+        }
+
+
+        private void load_sno_btn_Click(object sender, EventArgs e)
+        {
+
+            refresh();
+
         }
 
         private void pictureBox_c1_Click(object sender, EventArgs e)
@@ -355,7 +402,7 @@ namespace CqustRfidSystem
 
         private void monthCalendar2_DateSelected(object sender, DateRangeEventArgs e)
         {
-            DateTime start = monthCalendar1.SelectionRange.Start;
+            DateTime start = monthCalendar2.SelectionRange.Start;
             string s = start.ToString("yyyy-MM-dd 00:00:00", CultureInfo.InvariantCulture);
             textBox_end_time.Text = s;
             monthCalendar2.Visible = false;
@@ -386,6 +433,102 @@ namespace CqustRfidSystem
                 ClearDependentComboboxes(comboBox_subject_name);
                 UpdateDependentComboboxes("class_info");
             }
+        }
+
+        private void 正常ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+
+            try
+            {
+                String state = (String)data_table.CurrentCell.Value;
+
+                if (state.Equals("正常") || state.Equals("迟到") || state.Equals("缺勤"))
+                {
+
+               
+                    data_table.CurrentCell.Value = "正常";
+                    DataGridViewRow row = data_table.CurrentRow;
+                    string sno = data_table.Rows[row.Index].Cells[2].Value.ToString();
+                    string addtime = data_table.Rows[row.Index].Cells[1].Value.ToString();
+                    Httpx.Post(Config.BASE_URL+ "set_attandence_state",new Dictionary<string, object> { {"sno",sno},{ "addtime",addtime},{"state","0" } });
+                    refresh();
+                }
+            }
+            catch { 
+            }
+        }
+
+        private void 缺勤ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String state = (String)data_table.CurrentCell.Value;
+
+                if (state.Equals("正常") || state.Equals("迟到") || state.Equals("缺勤"))
+                {
+
+               
+                    data_table.CurrentCell.Value = "缺勤";
+                    DataGridViewRow row = data_table.CurrentRow;
+                    string sno = data_table.Rows[row.Index].Cells[2].Value.ToString();
+                    string addtime = data_table.Rows[row.Index].Cells[1].Value.ToString();
+                    Httpx.Post(Config.BASE_URL + "set_attandence_state", new Dictionary<string, object> { { "sno", sno }, { "addtime", addtime }, { "state", "2" } });
+                    refresh();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void 迟到ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String state = (String)data_table.CurrentCell.Value;
+
+                if (state.Equals("正常") || state.Equals("迟到") || state.Equals("缺勤"))
+                {
+
+               
+                    data_table.CurrentCell.Value = "迟到";
+                    DataGridViewRow row = data_table.CurrentRow;
+                 
+                    string sno = data_table.Rows[row.Index].Cells[2].Value.ToString();
+                    string addtime = data_table.Rows[row.Index].Cells[1].Value.ToString();
+                    Httpx.Post(Config.BASE_URL + "set_attandence_state", new Dictionary<string, object> { { "sno", sno }, { "addtime", addtime }, { "state", "1" } });
+                    refresh();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void data_table_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label_course_name_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox_scheduling_id_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (comboBox_scheduling_id.Text == "")
+            {
+                label_course_name.Text = "";
+            }
+            else
+            {
+                var dataArray = get_info("course_name_info", new Dictionary<string, string> { { "scheduling_id", comboBox_scheduling_id.Text } });
+
+                label_course_name.Text = dataArray[0].ToObject<Dictionary<string, string>>()["course_name"];
+            }
+
         }
     }
     

@@ -5,7 +5,7 @@ import smtplib
 from email.header import Header
 from email.mime.text import MIMEText
 from jinja2 import Environment, FileSystemLoader
-
+import time
 from conflig import *
 
 
@@ -33,12 +33,12 @@ class Email:
 
             self.server.sendmail(self.email_username, [rsv_email], msg=message.as_string())
             print(f"向：{rsv_email}发送邮件：{message}")
-
+            self.server.quit()
         except smtplib.SMTPException as e:
             print(f"发送邮件时出错: {e}")
 
-        finally:
-            if self.server:
-                self.server.quit()
-                self.server = None
+        # finally:
+        #     if self.server:
+        #         self.server.quit()
+        #         self.server = None
 

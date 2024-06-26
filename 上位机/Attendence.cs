@@ -42,15 +42,11 @@ namespace CqustRfidSystem
         private void btn_open_Click(object sender, EventArgs e)
         {
             is_first_re_ok=true;
-            textBox_place.Text = "I118";
             string pattern = @"^[A-Z]\d{3}$";
             Regex regex = new Regex(pattern);
-            if (regex.IsMatch(textBox_place.Text) && comboBox_port.Text != "")
+            if (comboBox_port.Text != "")
             {
-               
-    
-               
-  
+                  
                 SerialPort ports = new SerialPort();
                 ports.PortName = comboBox_port.Text;
                 ports.BaudRate = 4800;
@@ -58,11 +54,19 @@ namespace CqustRfidSystem
                 ports.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
                 sp[comboBox_port.Text] = ports;
 
-                //设置地点：
-                string set_place_data = "s" + textBox_place.Text + "0000000000#";
-               // string set_place_data = "sI1180000000000#";
-           
-                Serialport.send_string_to_byte_data(ports,set_place_data);
+                if (regex.IsMatch(textBox_place.Text) && !textBox_place.Text.Equals(""))
+                {
+                    //设置地点：
+                    string set_place_data = "s" + textBox_place.Text + "0000000000#";
+                    // string set_place_data = "sI1180000000000#";
+
+                    Serialport.send_string_to_byte_data(ports, set_place_data);
+                }
+                else {
+                    MessageBox.Show("请正确输入地址");
+                }
+          
+
 
             }
             else {
@@ -75,9 +79,15 @@ namespace CqustRfidSystem
         private void btn_open_Click_1(object sender, EventArgs e)
         {
             //开启打卡模式
-            Serialport.send_string_to_byte_data(sp[comboBox_port.Text], "d00000000000000#");
-            log_text.SelectionColor = Color.Green;
-            log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")}Rfid_reader: 开启打卡模式成功" + Environment.NewLine);
+            try
+            {
+                Serialport.send_string_to_byte_data(sp[comboBox_port.Text], "d00000000000000#");
+                log_text.SelectionColor = Color.Green;
+                log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")}{comboBox_port.Text} Rfid_reader: 开启打卡模式成功" + Environment.NewLine);
+            }
+            catch { 
+            
+            }
         }
 
         private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -151,13 +161,13 @@ namespace CqustRfidSystem
                             {
                                 case Config.FLAG_NOT_IN_ATTENDANCE_TIME:
                                  
-                                    log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 不在考勤时间" + Environment.NewLine);
+                                    log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学号 {sno} 不在考勤时间" + Environment.NewLine);
                                     //不在考勤时间
                                     send_print_data = "dp2000000000000#";
                                     Serialport.send_string_to_byte_data(uart, send_print_data);
                                     break;
                                 case Config.FLAG_THIS_TIME_STUDENT_NOT_COURSE:
-                                    log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $"学号 {sno} 此时间段无课" + Environment.NewLine);
+                                    log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $"学号 {sno} 此时间段在此教室无课" + Environment.NewLine);
                                     //该时间没有课
                                     send_print_data = "dp3000000000000#";
                                     Serialport.send_string_to_byte_data(uart, send_print_data);
@@ -193,7 +203,7 @@ namespace CqustRfidSystem
                                                 else if (state_flag == 1) { state = "迟到"; send_print_data = "dp0100000000000#"; }
                                                 else if(state_flag == 2) { state = "缺勤"; send_print_data = "dp0200000000000#"; }
                                                 Serialport.send_string_to_byte_data(uart, send_print_data);
-                                                log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学号 {sno} 学生 {stu_name} 打卡成功 状态 {state}" + Environment.NewLine);
+                                                log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学号 {sno} 学生 {stu_name} 打卡成功 状态 {state} 地点 {label_place.Text}" + Environment.NewLine);
                                             }
                                                 
                                         }
@@ -217,7 +227,12 @@ namespace CqustRfidSystem
         private void button_close_Click(object sender, EventArgs e)
         {
             if (comboBox_port.Text != null) {
-                Serialport.close_usrt(sp[comboBox_port.Text]);
+                Serialport.send_string_to_byte_data(sp[comboBox_port.Text], "c00000000000000#");
+                Serialport.close_usrt(sp[comboBox_port.Text]);           
+                log_text.SelectionColor = Color.Green;
+                log_text.AppendText($"{DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss] ")} {comboBox_port.Text} Rfid_reader:  关闭打卡模式成功" + Environment.NewLine);
+
+
             }
         }
 
@@ -225,6 +240,11 @@ namespace CqustRfidSystem
         {
             log_text.SelectionStart = log_text.Text.Length;
             log_text.ScrollToCaret();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

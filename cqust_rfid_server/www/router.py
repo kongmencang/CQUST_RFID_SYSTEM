@@ -60,11 +60,23 @@ def get_info():
             return jsonify({"flag": FLAG_ERROR}), 200
         return jsonify(Option.get_info_option(how_get,argument)),200
 
+@app.route('/set_attandence_state', methods=['POST'])
+def set_attandence_state():
+    if request.method == 'POST':
+        sno = request.json.get("sno")
+        state = request.json.get("state")
+        addtime = request.json.get("addtime")
+        if not sno or not state:
+            return jsonify({"flag": FLAG_ERROR}), 200
+        result = Attendance.set_attandence_state(sno=sno, state=state,addtime=addtime)
+
+        return jsonify(result),200
+
 
 def run():
     global run_flag
     if run_flag==False:
-        app.run(port=6666, debug=True, host='0.0.0.0')
+        app.run(port=6666, debug=False, host='0.0.0.0')
         run_flag=True;
 if __name__ == '__main__':
     pass

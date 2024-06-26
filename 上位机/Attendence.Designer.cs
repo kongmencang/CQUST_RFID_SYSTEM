@@ -28,6 +28,7 @@ namespace CqustRfidSystem
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Attendence));
             this.log_text = new System.Windows.Forms.RichTextBox();
             this.textBox_place = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,8 +46,8 @@ namespace CqustRfidSystem
             // log_text
             // 
             this.log_text.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.log_text.Location = new System.Drawing.Point(34, 163);
-            this.log_text.Margin = new System.Windows.Forms.Padding(2);
+            this.log_text.Location = new System.Drawing.Point(78, 160);
+            this.log_text.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.log_text.Name = "log_text";
             this.log_text.Size = new System.Drawing.Size(576, 290);
             this.log_text.TabIndex = 22;
@@ -55,7 +56,7 @@ namespace CqustRfidSystem
             // 
             // textBox_place
             // 
-            this.textBox_place.Location = new System.Drawing.Point(366, 66);
+            this.textBox_place.Location = new System.Drawing.Point(327, 65);
             this.textBox_place.Name = "textBox_place";
             this.textBox_place.Size = new System.Drawing.Size(100, 21);
             this.textBox_place.TabIndex = 23;
@@ -63,16 +64,19 @@ namespace CqustRfidSystem
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(253, 69);
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Location = new System.Drawing.Point(268, 67);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 12);
+            this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 24;
-            this.label1.Text = "考勤机地址配置";
+            this.label1.Text = "考勤教室";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 69);
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(32, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 12);
             this.label2.TabIndex = 25;
@@ -88,7 +92,7 @@ namespace CqustRfidSystem
             // 
             // btn_set
             // 
-            this.btn_set.Location = new System.Drawing.Point(510, 63);
+            this.btn_set.Location = new System.Drawing.Point(500, 62);
             this.btn_set.Name = "btn_set";
             this.btn_set.Size = new System.Drawing.Size(75, 23);
             this.btn_set.TabIndex = 28;
@@ -99,6 +103,8 @@ namespace CqustRfidSystem
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(38, 127);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 12);
@@ -108,6 +114,8 @@ namespace CqustRfidSystem
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.Color.Transparent;
             this.label5.Location = new System.Drawing.Point(211, 127);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 12);
@@ -126,7 +134,7 @@ namespace CqustRfidSystem
             // label_place
             // 
             this.label_place.AutoSize = true;
-            this.label_place.Location = new System.Drawing.Point(293, 127);
+            this.label_place.Location = new System.Drawing.Point(276, 127);
             this.label_place.Name = "label_place";
             this.label_place.Size = new System.Drawing.Size(17, 12);
             this.label_place.TabIndex = 34;
@@ -134,7 +142,7 @@ namespace CqustRfidSystem
             // 
             // btn_open
             // 
-            this.btn_open.Location = new System.Drawing.Point(639, 64);
+            this.btn_open.Location = new System.Drawing.Point(639, 62);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 23);
             this.btn_open.TabIndex = 35;
@@ -156,6 +164,9 @@ namespace CqustRfidSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.BackgroundImage = global::CqustRfidSystem.Properties.Resources.bg2;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button_close);
             this.Controls.Add(this.btn_open);
@@ -169,8 +180,10 @@ namespace CqustRfidSystem
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox_place);
             this.Controls.Add(this.log_text);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Attendence";
-            this.Text = "Attendence";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "考勤";
             this.Load += new System.EventHandler(this.Attendence_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -30,14 +30,14 @@ class Login(object):
                 else:
                     cls.__error_num_dic[user_id]+=1
                 print("用户：{} 登录失败 {}次".format(user_id, cls.__error_num_dic[user_id] ))
-                #限制用户一分钟内错误次数
+                ##限制用户一分钟内错误次数
                 if cls.__error_num_dic[user_id]==1:
-                    threading.Timer(5,lambda:cls.__del_error_num(user_id)).start()
+                    pass
+                    #threading.Timer(30,lambda:cls.__del_error_num(user_id)).start()
                 if cls.__error_num_dic[user_id]==3:
                     print("封禁用户：{} ".format(user_id))
                     mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_PENDING)
-                    del cls.__error_num_dic[user_id]
-                    threading.Timer(5, lambda:(mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_NORMAL), print("解封用户：{} ".format(user_id)) )).start()
+                    threading.Timer(30, lambda:(mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_NORMAL), print("解封用户：{} ".format(user_id)) )).start()
 
             else:
                 user_name=mysql_cqust_rfid.get_user_name_by_user_id(user_id=user_id)

@@ -127,5 +127,20 @@
   <ItemGroup>
     <None Include="Resources\calendar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\daka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fasong.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

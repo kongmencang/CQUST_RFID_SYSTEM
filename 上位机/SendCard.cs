@@ -396,12 +396,10 @@ namespace CqustRfidSystem
             
             
                 if (data.StartsWith("ok") && data[15] == '#')
-                {
-                   
+                {           
                     string read_card_ok = data.Substring(2, 10);
-       
                     this.buffer.Clear();
-                    if (read_card_ok.Equals(read_card_ok_flag))
+                    if (read_card_ok.Equals(read_card_ok_flag) )
                     {
                         return;
                     }
@@ -452,6 +450,11 @@ namespace CqustRfidSystem
         {
             log_text.SelectionStart = log_text.Text.Length; 
             log_text.ScrollToCaret(); 
+
+        }
+
+        private void load_sno_btn_Click(object sender, EventArgs e)
+        {
 
         }
     }

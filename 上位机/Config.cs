@@ -10,7 +10,7 @@ namespace CqustRfidSystem
     public static class Config
     {
         //请求地址
-        public const string BASE_URL = "http://127.0.0.1:6666/";
+        public const string BASE_URL = "http://chapaofan.cn/";
 
 
         /*

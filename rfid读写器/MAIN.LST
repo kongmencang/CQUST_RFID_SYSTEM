@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   48   1          for (x = z; x > 0; x--)
   49   1              for (y = 110; y > 0; y--)
   50   1                  ;
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 2   
 
   51   1      }
   52          
@@ -126,7 +126,7 @@ line level    source
  110          
  111          
  112          void display_bang_ding_chen_gong(uchar row)
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 3   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 3   
 
  113          {
  114   1          // 绑定成功
@@ -148,12 +148,12 @@ line level    source
  130          void display_bu_zai_kao_qing_shi_jian(uchar row)
  131          {
  132   1          // 不在考勤时间
- 133   1          LCD_write_hanzi(0, row, 12);
- 134   1          LCD_write_hanzi(2, row, 13);
- 135   1          LCD_write_hanzi(4, row, 0);
- 136   1          LCD_write_hanzi(8, row, 1);
- 137   1          LCD_write_hanzi(10, row, 14);
- 138   1          LCD_write_hanzi(12, row, 15);
+ 133   1          LCD_write_hanzi(1, row, 12);
+ 134   1          LCD_write_hanzi(3, row, 13);
+ 135   1          LCD_write_hanzi(5, row, 0);
+ 136   1          LCD_write_hanzi(7, row, 1);
+ 137   1          LCD_write_hanzi(9, row, 14);
+ 138   1          LCD_write_hanzi(11, row, 15);
  139   1      }
  140          
  141          void display_ben_shi_jian_dun_wu_ke(uchar row)
@@ -190,7 +190,7 @@ line level    source
  172   2          }
  173   1          if (state == '1')
  174   1          { // 迟到
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 4   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 4   
 
  175   2              LCD_write_hanzi(7, row, 28);
  176   2              LCD_write_hanzi(9, row, 29);
@@ -254,7 +254,7 @@ line level    source
  234   2              // 写入读卡器所处地址。
  235   2              if (received_data[0] == 's')
  236   2              {
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 5   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 5   
 
  237   3      
  238   3                  for (i = 0; i < 4; i++)
@@ -318,7 +318,7 @@ line level    source
  296   2      
  297   2              // 写卡
  298   2              if (received_data[0] == 'w')
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 6   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 6   
 
  299   2              {
  300   3                  for (i = 0; i < 10; i++)
@@ -382,7 +382,7 @@ line level    source
  358   4                      if (received_data[2] == '2')
  359   4                          display_bu_zai_kao_qing_shi_jian(THIRD_ROW);
  360   4                      if (received_data[2] == '3')
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 7   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 7   
 
  361   4                          display_ben_shi_jian_dun_wu_ke(THIRD_ROW);
  362   4                      if (received_data[2] == '4')
@@ -446,7 +446,7 @@ line level    source
  419   2              RI = 0; // 清除接收标志位
  420   2              if (Char == '#')
  421   2              { // 检测到结束符
-C51 COMPILER V9.59.0.0   MAIN                                                              06/19/2024 21:02:14 PAGE 8   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 8   
 
  422   3                  is_read_data = 1;
  423   3      

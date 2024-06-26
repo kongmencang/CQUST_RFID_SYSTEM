@@ -31,6 +31,7 @@ class Attendance:
             absence_time = (
                         datetime.combine(datetime.today(), start_time) + timedelta(minutes=COURSE_ABSENCE_TIME)).time()
             # 判断输入时间在哪个时间段
+            print("time",absence_time)
             if again_time <= input_time < late_time:
                 return {'flag': 0, 'section': i+1}
             elif late_time <= input_time < absence_time:
@@ -112,7 +113,7 @@ class Attendance:
                     # 开一个线程等待打卡
                     threading.Timer(wait_time, cls.__absence_dispose, args=(i+1,)).start()
                 else:
-                    cls.__absence_dispose(i + 1)
+                    #cls.__absence_dispose(i + 1)
                     pass
                     #
                     # #为什么我会这么写呢，我也不知道 反正没打卡的就必须缺勤！就算系统关闭了，你也逃不掉，嘿嘿
@@ -148,6 +149,8 @@ class Attendance:
             data.append(result)
 
         result = {}
+        
+        e_flag=0
         #重组数据结构
         for item in data:
             counsellor = item['counsellor_name']
@@ -174,11 +177,21 @@ class Attendance:
                     course_name=course
             )
                 rsv_email = mysql_cqust_rfid.get_teacher_email_by_teacher_name(counsellor)
-                #发邮件
-                EMAIL_QQ.send_email(email_body=email_body,rsv_email=rsv_email,subject_text="学生缺勤通知")
-                #邮件多线程要用线程池调度 太麻烦了 不想写
+                #发邮件 其实应该弄个可用邮件池子的 但是太懒了。
+                
+                EMAIL_QQ2.send_email(email_body=email_body,rsv_email=rsv_email,subject_text="学生缺勤通知")
+                
+               
+                
                 #threading.Thread(target=EMAIL_QQ.send_email, args=(email_body, "学生缺勤通知", rsv_email)).start()
 
+
+    @classmethod
+    def set_attandence_state(cls,sno,state,addtime):
+        if mysql_cqust_rfid.set_attendance_state(sno=sno,state=state,addtime=addtime):
+            return True
+        else:
+            return False
 if __name__ == '__main__':
     Attendance.absence_dispose(1)
 

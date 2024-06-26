@@ -16,9 +16,9 @@ Mysql配置
 #用户名
 MYSQL_USERNAME='root'
 #密码
-MYSQL_PASSWORD='yk1184507696'
+MYSQL_PASSWORD=''
 #地址
-MYSQL_HOST='47.109.137.143'
+MYSQL_HOST='127.0.0.1'
 #数据库名
 MYSQL_DATABASE='CqustRfidSystem'
 #RFID卡信息表名
@@ -85,22 +85,22 @@ FLAG_THIS_TIME_IS_ATTENDENCE='000011' #这个时间段已经打过卡了
 
 # 课程时间
 COURSE_TIMES = [
-    ("08:00:00", "10:10:00"), #第一节课开始结束时间
+    ("04:00:00", "10:10:00"), #第一节课开始结束时间
     ("10:30:00", "12:10:00"),
     ("14:00:00", "15:40:00"),
     ("16:00:00", "17:40:00"),
     ("18:00:00", "19:40:00"),
-    ("21:40:00", "21:40:00"),#第六节课开始结束时间
+    ("23:35:55", "23:59:00"),#第六节课开始结束时间
 ]
 
-COURSE_TIMES = [
-    ("18:00:01", "10:10:00"), #第一节课开始结束时间
-    ("18:00:40", "12:10:00"),
-    ("18:00:50", "15:40:00"),
-    ("18:00:55", "17:40:00"),
-    ("18:04:50", "21:40:00"),
-    ("19:23:01", "21:40:00"),#第六节课开始结束时间
-]
+# COURSE_TIMES = [
+#     ("12:00:01", "10:10:00"), #第一节课开始结束时间
+#     ("12:00:40", "12:10:00"),
+#     ("12:00:50", "15:40:00"),
+#     ("12:00:55", "17:40:00"),
+#     ("12:19:50", "21:40:00"),
+#     ("12:20:01", "21:40:00"),#第六节课开始结束时间
+# ]
 
 
 
@@ -113,9 +113,8 @@ COURSE_AGAIN_TIME = 5
 # 打卡关闭时间
 COURSE_ABSENCE_TIME = 20
 
-COURSE_ABSENCE_TIME = 0
 
-TERM_TIME= "202301"
+TERM_TIME= "202401"
 
 """
 邮件配置相关
@@ -123,12 +122,21 @@ TERM_TIME= "202301"
 #地址 端口 用户名 权限码（自己去邮箱申请） 发送名
 EMAIL_SMTP = "smtp.qq.com"
 EMAIL_SMTP_PORT =465
-EMAIL_USER = "key_for_door@qq.com"
-EMAIL_PASSWORD = "vjzifsbdndvvidhj"
+EMAIL_USER1 = "@qq.com"
+EMAIL_PASSWORD1 = ""
+
+EMAIL_USER2 = "@qq.com"
+EMAIL_PASSWORD2 = ""
+
 EMAIL_SEND_NAME="重庆科技大学"
 #邮箱对象
-EMAIL_QQ = Email(email_smtp=EMAIL_SMTP, email_port=EMAIL_SMTP_PORT, email_username=EMAIL_USER,
-                 email_password=EMAIL_PASSWORD, email_send_name=EMAIL_SEND_NAME)
+EMAIL_QQ1 = Email(email_smtp=EMAIL_SMTP, email_port=EMAIL_SMTP_PORT, email_username=EMAIL_USER1,
+                email_password=EMAIL_PASSWORD1, email_send_name=EMAIL_SEND_NAME)
+
+EMAIL_QQ2 = Email(email_smtp=EMAIL_SMTP, email_port=EMAIL_SMTP_PORT, email_username=EMAIL_USER2,
+                email_password=EMAIL_PASSWORD2, email_send_name=EMAIL_SEND_NAME)
+
+
 
 #缺勤模版
 env = Environment(loader=FileSystemLoader("./templates"))

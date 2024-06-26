@@ -26,12 +26,17 @@ namespace CqustRfidSystem
             if (is_pwd_visible_flag == false)
             {
                 pictureBox_is_pwd_visible.Image = Properties.Resources.eye;
+                pictureBox_left.Image = Properties.Resources.开眼1;
+                pictureBox_right.Image = Properties.Resources.开眼;
                 is_pwd_visible_flag = true;
                 user_password.PasswordChar = '\0';
+
             }
             else
             {
                 pictureBox_is_pwd_visible.Image = Properties.Resources.eye1;
+                pictureBox_left.Image = Properties.Resources.闭眼1;
+                pictureBox_right.Image = Properties.Resources.闭眼;
                 is_pwd_visible_flag = false;
                 user_password.PasswordChar = '*';
             }
@@ -110,6 +115,11 @@ namespace CqustRfidSystem
                     }
                 }
             }
+        }
+
+        private void pictureBox_title_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
