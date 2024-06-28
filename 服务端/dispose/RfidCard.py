@@ -19,8 +19,6 @@ class RfidCard:
             return dic
         is_card_exist = mysql_cqust_rfid.is_card_exist(card_id=card_id)
         is_sno_exist = mysql_cqust_rfid.is_sno_exist(sno=sno)
-
-
         #这张卡片已经有人，且卡片归属者不属于待发卡学生
         if is_card_exist:
             sno=mysql_cqust_rfid.get_sno_by_card_id_from_rfid_info(card_id=card_id)

@@ -89,19 +89,16 @@ namespace CqustRfidSystem
                                         string user_name = userNameJValue2.Value.ToString();
                                         share_info.user_name = user_name;
                                     
-
                                     }
                                     if (dataObject2.TryGetValue("user_power", out var userPowerValue2) && userPowerValue2 is JValue userPowerJValue2)
                                     {
                                         string user_power = userPowerJValue2.Value.ToString();
-                                        share_info.user_power = user_power;
-                                    
+                                        share_info.user_power = user_power;                              
                                     }
                                     if (dataObject2.TryGetValue("user_school_id", out var usersidValue2) && usersidValue2 is JValue usersidJValue2)
                                     {
                                         string user_school_id = usersidJValue2.Value.ToString();
                                         share_info.user_school = user_school_id;
-
                                     }
                                     share_info.user_id = user_id.Text;
                                     MainForm mf = new MainForm();

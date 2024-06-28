@@ -38,7 +38,6 @@ class Login(object):
                     print("封禁用户：{} ".format(user_id))
                     mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_PENDING)
                     threading.Timer(30, lambda:(mysql_cqust_rfid.set_user_state(user_id=user_id,state=USER_STATE_NORMAL), print("解封用户：{} ".format(user_id)) )).start()
-
             else:
                 user_name=mysql_cqust_rfid.get_user_name_by_user_id(user_id=user_id)
                 user_power=mysql_cqust_rfid.get_user_power_by_user_id(user_id=user_id)
@@ -48,9 +47,7 @@ class Login(object):
                 dic["data"]["user_power"]=user_power
                 #获取用户所属学院
                 dic["data"]["user_school_id"]=mysql_cqust_rfid.get_user_school_id_by_user_id(user_id)
-
                 print("用户: {} 登录成功".format(user_id))
-
         return dic
 
 

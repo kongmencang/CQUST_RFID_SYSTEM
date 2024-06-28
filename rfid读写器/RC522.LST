@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 1   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE RC522
@@ -62,7 +62,7 @@ line level    source
   52          
   53          /////////////////////////////////////////////////////////////////////
   54          //功    能：防冲撞
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 2   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 2   
 
   55          //参数说明: pSnr[OUT]:卡片序列号，4字节
   56          //返    回: 成功返回MI_OK
@@ -126,7 +126,7 @@ line level    source
  114   1      
  115   1          status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,9,ucComMF522Buf,&unLen);
  116   1          
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 3   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 3   
 
  117   1          if ((status == MI_OK) && (unLen == 0x18))
  118   1          {   status = MI_OK;  }
@@ -190,7 +190,7 @@ line level    source
  176   1          {
  177   2              for (i=0; i<16; i++)
  178   2              {    *(pData+i) = ucComMF522Buf[i];   }
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 4   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 4   
 
  179   2          }
  180   1          else
@@ -254,7 +254,7 @@ line level    source
  238   1          ucComMF522Buf[1] = addr;
  239   1          CalulateCRC(ucComMF522Buf,2,&ucComMF522Buf[2]);
  240   1       
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 5   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 5   
 
  241   1          status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,4,ucComMF522Buf,&unLen);
  242   1      
@@ -318,7 +318,7 @@ line level    source
  300   2       
  301   2              status = PcdComMF522(PCD_TRANSCEIVE,ucComMF522Buf,6,ucComMF522Buf,&unLen);
  302   2              if (status != MI_ERR)
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 6   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 6   
 
  303   2              {    status = MI_OK;    }
  304   2          }
@@ -382,7 +382,7 @@ line level    source
  362   1          pOutData[1] = ReadRawRC(CRCResultRegM);
  363   1      }
  364          
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 7   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 7   
 
  365          /////////////////////////////////////////////////////////////////////
  366          //功    能：复位RC522
@@ -446,7 +446,7 @@ line level    source
  424   2               ucResult|=(bit)MF522_SO;
  425   2               MF522_SCK = 0;
  426   2           }
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 8   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 8   
 
  427   1      
  428   1           MF522_NSS = 1;
@@ -510,7 +510,7 @@ line level    source
  486   1          WriteRawRC(reg, tmp & ~mask);  // clear bit mask
  487   1      } 
  488          
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 9   
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 9   
 
  489          /////////////////////////////////////////////////////////////////////
  490          //功    能：通过RC522和ISO14443卡通讯
@@ -574,7 +574,7 @@ line level    source
  548   2               {
  549   3                   status = MI_OK;
  550   3                   if (n & irqEn & 0x01)
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 10  
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 10  
 
  551   3                   {   status = MI_NOTAGERR;   }
  552   3                   if (Command == PCD_TRANSCEIVE)
@@ -639,7 +639,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
-C51 COMPILER V9.59.0.0   RC522                                                             06/26/2024 23:25:41 PAGE 11  
+C51 COMPILER V9.59.0.0   RC522                                                             06/27/2024 13:24:14 PAGE 11  
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   48   1          for (x = z; x > 0; x--)
   49   1              for (y = 110; y > 0; y--)
   50   1                  ;
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 2   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 2   
 
   51   1      }
   52          
@@ -126,345 +126,358 @@ line level    source
  110          
  111          
  112          void display_bang_ding_chen_gong(uchar row)
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 3   
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 3   
 
  113          {
  114   1          // 绑定成功
- 115   1          LCD_write_hanzi(2, row, 10);
- 116   1          LCD_write_hanzi(4, row, 11);
- 117   1          LCD_write_hanzi(6, row, 6);
- 118   1          LCD_write_hanzi(8, row, 7);
- 119   1      }
- 120          
- 121          void display_kao_qing_shi_bai(uchar row)
- 122          {
- 123   1          // 考勤失败
- 124   1          LCD_write_hanzi(3, row, 0);
- 125   1          LCD_write_hanzi(5, row, 1);
- 126   1          LCD_write_hanzi(7, row, 16);
- 127   1          LCD_write_hanzi(9, row, 17);
- 128   1      }
- 129          
- 130          void display_bu_zai_kao_qing_shi_jian(uchar row)
- 131          {
- 132   1          // 不在考勤时间
- 133   1          LCD_write_hanzi(1, row, 12);
- 134   1          LCD_write_hanzi(3, row, 13);
- 135   1          LCD_write_hanzi(5, row, 0);
- 136   1          LCD_write_hanzi(7, row, 1);
- 137   1          LCD_write_hanzi(9, row, 14);
- 138   1          LCD_write_hanzi(11, row, 15);
- 139   1      }
- 140          
- 141          void display_ben_shi_jian_dun_wu_ke(uchar row)
- 142          {
- 143   1          // 本时间段无课
- 144   1          LCD_write_hanzi(1, row, 18);
- 145   1          LCD_write_hanzi(3, row, 14);
- 146   1          LCD_write_hanzi(5, row, 15);
- 147   1          LCD_write_hanzi(7, row, 19);
- 148   1          LCD_write_hanzi(9, row, 20);
- 149   1          LCD_write_hanzi(11, row, 21);
- 150   1      }
- 151          
- 152          void display_ben_jie_ke_yi_da_ka(uchar row)
- 153          {
- 154   1          // 本节课已打卡
- 155   1          LCD_write_hanzi(1, row, 18);
- 156   1          LCD_write_hanzi(3, row, 22);
- 157   1          LCD_write_hanzi(5, row, 21);
- 158   1          LCD_write_hanzi(7, row, 23);
- 159   1          LCD_write_hanzi(9, row, 4);
- 160   1          LCD_write_hanzi(11, row, 5);
- 161   1      }
- 162          void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
- 163          {
- 164   1          // 考勤：
- 165   1          LCD_write_hanzi(2, row, 0);
- 166   1          LCD_write_hanzi(4, row, 1);
- 167   1          LCD_write_shu(6, row, 36);
- 168   1          if (state == '0')
- 169   1          { // 正常
- 170   2              LCD_write_hanzi(7, row, 26);
- 171   2              LCD_write_hanzi(9, row, 27);
- 172   2          }
- 173   1          if (state == '1')
- 174   1          { // 迟到
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 4   
+ 115   1          LCD_write_shu(1, row, 37);
+ 116   1          LCD_write_hanzi(2, row, 10);
+ 117   1          LCD_write_hanzi(4, row, 11);
+ 118   1          LCD_write_hanzi(6, row, 6);
+ 119   1          LCD_write_hanzi(8, row, 7);
+ 120   1          LCD_write_shu(10, row, 37);
+ 121   1          LCD_write_shu(11, row, 37);
+ 122   1          LCD_write_shu(12, row, 37);
+ 123   1      }
+ 124          
+ 125          void display_kao_qing_shi_bai(uchar row)
+ 126          {
+ 127   1          // 考勤失败
+ 128   1          LCD_write_shu(1, row, 37);
+ 129   1          LCD_write_shu(2, row, 37);
+ 130   1          LCD_write_hanzi(3, row, 0);
+ 131   1          LCD_write_hanzi(5, row, 1);
+ 132   1          LCD_write_hanzi(7, row, 16);
+ 133   1          LCD_write_hanzi(9, row, 17);
+ 134   1          LCD_write_shu(11, row, 37);
+ 135   1          LCD_write_shu(12, row, 37);
+ 136   1        
+ 137   1      }
+ 138          
+ 139          void display_bu_zai_kao_qing_shi_jian(uchar row)
+ 140          {
+ 141   1          // 不在考勤时间
+ 142   1          LCD_write_hanzi(1, row, 12);
+ 143   1          LCD_write_hanzi(3, row, 13);
+ 144   1          LCD_write_hanzi(5, row, 0);
+ 145   1          LCD_write_hanzi(7, row, 1);
+ 146   1          LCD_write_hanzi(9, row, 14);
+ 147   1          LCD_write_hanzi(11, row, 15);
+ 148   1      }
+ 149          
+ 150          void display_ben_shi_jian_dun_wu_ke(uchar row)
+ 151          {
+ 152   1          // 本时间段无课
+ 153   1          LCD_write_hanzi(1, row, 18);
+ 154   1          LCD_write_hanzi(3, row, 14);
+ 155   1          LCD_write_hanzi(5, row, 15);
+ 156   1          LCD_write_hanzi(7, row, 19);
+ 157   1          LCD_write_hanzi(9, row, 20);
+ 158   1          LCD_write_hanzi(11, row, 21);
+ 159   1      }
+ 160          
+ 161          void display_ben_jie_ke_yi_da_ka(uchar row)
+ 162          {
+ 163   1          // 本节课已打卡
+ 164   1          LCD_write_hanzi(1, row, 18);
+ 165   1          LCD_write_hanzi(3, row, 22);
+ 166   1          LCD_write_hanzi(5, row, 21);
+ 167   1          LCD_write_hanzi(7, row, 23);
+ 168   1          LCD_write_hanzi(9, row, 4);
+ 169   1          LCD_write_hanzi(11, row, 5);
+ 170   1      }
+ 171          void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
+ 172          {
+ 173   1          // 考勤：
+ 174   1          LCD_write_shu(1, row, 37);
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 4   
 
- 175   2              LCD_write_hanzi(7, row, 28);
- 176   2              LCD_write_hanzi(9, row, 29);
- 177   2          }
- 178   1          if (state == '2')
- 179   1          {
- 180   2              // 缺勤
- 181   2              LCD_write_hanzi(7, row, 30);
- 182   2              LCD_write_hanzi(9, row, 1);
- 183   2          }
- 184   1      }
- 185          
- 186          
- 187          
- 188          void display_cardnum(uchar row)
- 189          {
- 190   1          unsigned char first, second;
- 191   1          // 卡号:
- 192   1          LCD_write_hanzi(0, row, 5);
- 193   1          LCD_write_hanzi(2, row, 9);
- 194   1          LCD_write_shu(4, row, 36);
- 195   1          first = (g_ucTempbuf[0] & 0xf0) >> 4;
- 196   1          LCD_write_shu(5, row, first); // 写数字
- 197   1          second = g_ucTempbuf[0] & 0x0f;
- 198   1          LCD_write_shu(6, row, second); // 写数字
- 199   1      
- 200   1          first = (g_ucTempbuf[1] & 0xf0) >> 4;
- 201   1          LCD_write_shu(7, row, first); // 写数字
- 202   1          second = g_ucTempbuf[1] & 0x0f;
- 203   1          LCD_write_shu(8, row, second); // 写数字
- 204   1      
- 205   1          first = (g_ucTempbuf[2] & 0xf0) >> 4;
- 206   1          LCD_write_shu(9, row, first); // 写数字
- 207   1          second = g_ucTempbuf[2] & 0x0f;
- 208   1          LCD_write_shu(10, row, second); // 写数字
- 209   1      
- 210   1          first = (g_ucTempbuf[3] & 0xf0) >> 4;
- 211   1          LCD_write_shu(11, row, first); // 写数字
- 212   1          second = g_ucTempbuf[3] & 0x0f;
- 213   1          LCD_write_shu(12, row, second); // 写数字
- 214   1          LCD_write_shu(13, row, 37);
- 215   1      }
- 216          
- 217          // 主函数
- 218          void main()
- 219          {
- 220   1          unsigned char status;
- 221   1          unsigned int temp;
- 222   1      
- 223   1          LCD_init();
- 224   1          LCD_clear();
- 225   1          display_title(FIRST_ROW);
- 226   1          InitializeSystem();
- 227   1          PcdReset();
- 228   1          PcdAntennaOff();
- 229   1          PcdAntennaOn();
- 230   1      
- 231   1          while (1)
- 232   1          {
- 233   2      
- 234   2              // 写入读卡器所处地址。
- 235   2              if (received_data[0] == 's')
- 236   2              {
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 5   
+ 175   1          LCD_write_hanzi(2, row, 0);
+ 176   1          LCD_write_hanzi(4, row, 1);
+ 177   1          LCD_write_shu(6, row, 36);
+ 178   1          if (state == '0')
+ 179   1          { // 正常
+ 180   2              LCD_write_hanzi(7, row, 26);
+ 181   2              LCD_write_hanzi(9, row, 27);
+ 182   2          }
+ 183   1          if (state == '1')
+ 184   1          { // 迟到
+ 185   2              LCD_write_hanzi(7, row, 28);
+ 186   2              LCD_write_hanzi(9, row, 29);
+ 187   2          }
+ 188   1          if (state == '2')
+ 189   1          {
+ 190   2              // 缺勤
+ 191   2              LCD_write_hanzi(7, row, 30);
+ 192   2              LCD_write_hanzi(9, row, 1);
+ 193   2          }
+ 194   1            LCD_write_shu(11, row, 37);
+ 195   1            LCD_write_shu(12, row, 37);
+ 196   1      }
+ 197          
+ 198          
+ 199          
+ 200          void display_cardnum(uchar row)
+ 201          {
+ 202   1          unsigned char first, second;
+ 203   1          // 卡号:
+ 204   1          LCD_write_hanzi(0, row, 5);
+ 205   1          LCD_write_hanzi(2, row, 9);
+ 206   1          LCD_write_shu(4, row, 36);
+ 207   1          first = (g_ucTempbuf[0] & 0xf0) >> 4;
+ 208   1          LCD_write_shu(5, row, first); // 写数字
+ 209   1          second = g_ucTempbuf[0] & 0x0f;
+ 210   1          LCD_write_shu(6, row, second); // 写数字
+ 211   1      
+ 212   1          first = (g_ucTempbuf[1] & 0xf0) >> 4;
+ 213   1          LCD_write_shu(7, row, first); // 写数字
+ 214   1          second = g_ucTempbuf[1] & 0x0f;
+ 215   1          LCD_write_shu(8, row, second); // 写数字
+ 216   1      
+ 217   1          first = (g_ucTempbuf[2] & 0xf0) >> 4;
+ 218   1          LCD_write_shu(9, row, first); // 写数字
+ 219   1          second = g_ucTempbuf[2] & 0x0f;
+ 220   1          LCD_write_shu(10, row, second); // 写数字
+ 221   1      
+ 222   1          first = (g_ucTempbuf[3] & 0xf0) >> 4;
+ 223   1          LCD_write_shu(11, row, first); // 写数字
+ 224   1          second = g_ucTempbuf[3] & 0x0f;
+ 225   1          LCD_write_shu(12, row, second); // 写数字
+ 226   1          LCD_write_shu(13, row, 37);
+ 227   1      }
+ 228          
+ 229          // 主函数
+ 230          void main()
+ 231          {
+ 232   1          unsigned char status;
+ 233   1          unsigned int temp;
+ 234   1      
+ 235   1          LCD_init();
+ 236   1          LCD_clear();
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 5   
 
- 237   3      
- 238   3                  for (i = 0; i < 4; i++)
- 239   3                  {
- 240   4                      response_array[i + 11] = received_data[i + 1];
- 241   4                  }
- 242   3                  for (i = 0; i < 16; i++)
- 243   3                  {
- 244   4                      UART_sendbyte(write_ok[i]);
- 245   4                  }
- 246   3      
- 247   3                  // 返回成功响应
- 248   3              }
- 249   2      
- 250   2              status = PcdRequest(PICC_REQALL, g_ucTempbuf); // 寻卡
- 251   2              if (status != MI_OK)
- 252   2              {
- 253   3      
- 254   3                  display_title(FIRST_ROW);
- 255   3                  clear_row(SECOND_ROW);
- 256   3                  clear_row(THIRD_ROW);
- 257   3                  continue;
- 258   3              }
- 259   2      
- 260   2              status = PcdAnticoll(g_ucTempbuf); // 防冲撞
- 261   2              if (status != MI_OK)
- 262   2              {
- 263   3      
- 264   3                  continue;
- 265   3              }
- 266   2      
- 267   2              // 转换卡片发送
- 268   2              for (i = 0; i < 4; i++)
- 269   2              {
- 270   3                  uchar high_nibble = (g_ucTempbuf[i] >> 4) & 0x0F; // 高4位
- 271   3                  uchar low_nibble = g_ucTempbuf[i] & 0x0F;         // 低4位
- 272   3      
- 273   3                  card_id[6 + 2 * i] = nibble_to_ascii(high_nibble); // 高4位转换为 ASCII
- 274   3                  card_id[7 + 2 * i] = nibble_to_ascii(low_nibble);  // 低4位转换为 ASCII
- 275   3              }
- 276   2      
- 277   2              for (i = 0; i < 16; i++)
- 278   2              {
- 279   3                  UART_sendbyte(card_id[i]);
- 280   3              }
- 281   2      
- 282   2              display_cardnum(FIRST_ROW);
- 283   2              status = PcdSelect(g_ucTempbuf); // 选定卡片
- 284   2              if (status != MI_OK)
- 285   2              {
- 286   3      
- 287   3                  continue;
- 288   3              }
- 289   2      
- 290   2              status = PcdAuthState(PICC_AUTHENT1A, 1, DefaultKey, g_ucTempbuf); // 验证卡片密码
- 291   2              if (status != MI_OK)
- 292   2              {
- 293   3      
- 294   3                  continue;
- 295   3              }
- 296   2      
- 297   2              // 写卡
- 298   2              if (received_data[0] == 'w')
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 6   
+ 237   1          display_title(FIRST_ROW);
+ 238   1          InitializeSystem();
+ 239   1          PcdReset();
+ 240   1          PcdAntennaOff();
+ 241   1          PcdAntennaOn();
+ 242   1      
+ 243   1          while (1)
+ 244   1          {
+ 245   2      
+ 246   2              // 写入读卡器所处地址。
+ 247   2              if (received_data[0] == 's')
+ 248   2              {
+ 249   3      
+ 250   3                  for (i = 0; i < 4; i++)
+ 251   3                  {
+ 252   4                      response_array[i + 11] = received_data[i + 1];
+ 253   4                  }
+ 254   3                  for (i = 0; i < 16; i++)
+ 255   3                  {
+ 256   4                      UART_sendbyte(write_ok[i]);
+ 257   4                  }
+ 258   3      
+ 259   3                  // 返回成功响应
+ 260   3              }
+ 261   2      
+ 262   2              status = PcdRequest(PICC_REQALL, g_ucTempbuf); // 寻卡
+ 263   2              if (status != MI_OK)
+ 264   2              {
+ 265   3      
+ 266   3                  display_title(FIRST_ROW);
+ 267   3                  clear_row(SECOND_ROW);
+ 268   3                  clear_row(THIRD_ROW);
+ 269   3                  continue;
+ 270   3              }
+ 271   2      
+ 272   2              status = PcdAnticoll(g_ucTempbuf); // 防冲撞
+ 273   2              if (status != MI_OK)
+ 274   2              {
+ 275   3      
+ 276   3                  continue;
+ 277   3              }
+ 278   2      
+ 279   2              // 转换卡片发送
+ 280   2              for (i = 0; i < 4; i++)
+ 281   2              {
+ 282   3                  uchar high_nibble = (g_ucTempbuf[i] >> 4) & 0x0F; // 高4位
+ 283   3                  uchar low_nibble = g_ucTempbuf[i] & 0x0F;         // 低4位
+ 284   3      
+ 285   3                  card_id[6 + 2 * i] = nibble_to_ascii(high_nibble); // 高4位转换为 ASCII
+ 286   3                  card_id[7 + 2 * i] = nibble_to_ascii(low_nibble);  // 低4位转换为 ASCII
+ 287   3              }
+ 288   2      
+ 289   2              for (i = 0; i < 16; i++)
+ 290   2              {
+ 291   3                  UART_sendbyte(card_id[i]);
+ 292   3              }
+ 293   2      
+ 294   2              display_cardnum(FIRST_ROW);
+ 295   2              status = PcdSelect(g_ucTempbuf); // 选定卡片
+ 296   2              if (status != MI_OK)
+ 297   2              {
+ 298   3      
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 6   
 
- 299   2              {
- 300   3                  for (i = 0; i < 10; i++)
- 301   3                  {
- 302   4                      stu_id[5 + i] = received_data[1 + i];
- 303   4                      write_ok[2 + i] = received_data[1 + i];
- 304   4                  }
- 305   3                  status = PcdWrite(2, stu_id); // 写数据
- 306   3                  if (status != MI_OK)
- 307   3                  {
- 308   4      
- 309   4                      continue;
- 310   4                  }
- 311   3                  // 返回成功响应
- 312   3                  for (i = 0; i < 16; i++)
+ 299   3                  continue;
+ 300   3              }
+ 301   2      
+ 302   2              status = PcdAuthState(PICC_AUTHENT1A, 1, DefaultKey, g_ucTempbuf); // 验证卡片密码
+ 303   2              if (status != MI_OK)
+ 304   2              {
+ 305   3      
+ 306   3                  continue;
+ 307   3              }
+ 308   2      
+ 309   2              // 写卡
+ 310   2              if (received_data[0] == 'w')
+ 311   2              {
+ 312   3                  for (i = 0; i < 10; i++)
  313   3                  {
- 314   4                      UART_sendbyte(write_ok[i]);
- 315   4                  }
- 316   3                  // 显示绑定
- 317   3                  display_sno(SECOND_ROW);
- 318   3                  // 显示绑定成功
- 319   3                  display_bang_ding_chen_gong(THIRD_ROW);
- 320   3                  // 清除标志位
- 321   3                  received_data[0] = 0;
- 322   3      
- 323   3                  // 读取卡片绑定的学号
- 324   3              }
- 325   2              else if (received_data[0] == 'r')
- 326   2              {
- 327   3                  status = PcdRead(2, g_ucTempbuf);
- 328   3                  if (status != MI_OK)
- 329   3                  {
- 330   4                      continue;
- 331   4                  }
- 332   3                  for (i = 0; i < 16; i++)
- 333   3                  {
- 334   4                      UART_sendbyte(g_ucTempbuf[i]);
- 335   4                  }
+ 314   4                      stu_id[5 + i] = received_data[1 + i];
+ 315   4                      write_ok[2 + i] = received_data[1 + i];
+ 316   4                  }
+ 317   3                  status = PcdWrite(2, stu_id); // 写数据
+ 318   3                  if (status != MI_OK)
+ 319   3                  {
+ 320   4      
+ 321   4                      continue;
+ 322   4                  }
+ 323   3                  // 返回成功响应
+ 324   3                  for (i = 0; i < 16; i++)
+ 325   3                  {
+ 326   4                      UART_sendbyte(write_ok[i]);
+ 327   4                  }
+ 328   3                  // 显示绑定
+ 329   3                  display_sno(SECOND_ROW);
+ 330   3                  // 显示绑定成功
+ 331   3                  display_bang_ding_chen_gong(THIRD_ROW);
+ 332   3                  // 清除标志位
+ 333   3                  received_data[0] = 0;
+ 334   3      
+ 335   3                  // 读取卡片绑定的学号
  336   3              }
- 337   2              // 打卡模式，返回学号
- 338   2              else if (received_data[0] == 'd')
- 339   2              {
- 340   3                  status = PcdRead(2, g_ucTempbuf);
- 341   3                  if (status != MI_OK)
- 342   3                  {
- 343   4                      continue;
- 344   4                  }
- 345   3                  for (i = 0; i < 10; i++)
- 346   3                  {
- 347   4                      response_array[i + 1] = g_ucTempbuf[i + 5];
- 348   4                  }
- 349   3                  for (i = 0; i < 16; i++)
- 350   3                  {
- 351   4                      UART_sendbyte(response_array[i]);
- 352   4                  }
- 353   3                  if (received_data[1] == 'p')
+ 337   2              else if (received_data[0] == 'r')
+ 338   2              {
+ 339   3                  status = PcdRead(2, g_ucTempbuf);
+ 340   3                  if (status != MI_OK)
+ 341   3                  {
+ 342   4                      continue;
+ 343   4                  }
+ 344   3                  for (i = 0; i < 16; i++)
+ 345   3                  {
+ 346   4                      UART_sendbyte(g_ucTempbuf[i]);
+ 347   4                  }
+ 348   3              }
+ 349   2              // 打卡模式，返回学号
+ 350   2              else if (received_data[0] == 'd')
+ 351   2              {
+ 352   3                  status = PcdRead(2, g_ucTempbuf);
+ 353   3                  if (status != MI_OK)
  354   3                  {
- 355   4                      display_sno(SECOND_ROW);
- 356   4                      if (received_data[2] == '1')
- 357   4                          display_kao_qing_shi_bai(THIRD_ROW);
- 358   4                      if (received_data[2] == '2')
- 359   4                          display_bu_zai_kao_qing_shi_jian(THIRD_ROW);
- 360   4                      if (received_data[2] == '3')
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 7   
+ 355   4                      continue;
+ 356   4                  }
+ 357   3                  for (i = 0; i < 10; i++)
+ 358   3                  {
+ 359   4                      response_array[i + 1] = g_ucTempbuf[i + 5];
+ 360   4                  }
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 7   
 
- 361   4                          display_ben_shi_jian_dun_wu_ke(THIRD_ROW);
- 362   4                      if (received_data[2] == '4')
- 363   4                          display_ben_jie_ke_yi_da_ka(THIRD_ROW);
- 364   4                      if (received_data[2] == '0')
- 365   4                      {
- 366   5                          dispaly_kao_qing_cheng_gong(THIRD_ROW, received_data[3]);
- 367   5                      }
- 368   4                  }
- 369   3              }
- 370   2              //
- 371   2      
- 372   2              PcdHalt();
- 373   2          }
- 374   1      }
-*** WARNING C280 IN LINE 221 OF MAIN.C: 'temp': unreferenced local variable
- 375          
- 376          // 系统初始化
- 377          void InitializeSystem()
- 378          {
- 379   1          // I/O 端口配置
- 380   1          P0M1 = 0x0;
- 381   1          P0M2 = 0x0;
- 382   1          P1M1 = 0x0;
- 383   1          P1M2 = 0x0;
- 384   1          P3M1 = 0x0;
- 385   1          P3M2 = 0xFF;
- 386   1          P0 = 0xFF;
- 387   1          P1 = 0xFF;
- 388   1          P3 = 0xFF;
- 389   1          P2 = 0xFF;
- 390   1      
- 391   1          // 串口配置
- 392   1          SCON = 0x50; // 串行通信模式1，8位数据，允许接收
- 393   1      
- 394   1          // 定时器配置
- 395   1          TMOD = 0x20; // T1为方式2（8位自动重装）
- 396   1      
- 397   1          // 设置定时器初值
- 398   1          TH1 = 0xFA; // 设置波特率为4800bps
- 399   1          TL1 = 0xFA;
- 400   1      
- 401   1          // 启动定时器1
- 402   1          TR1 = 1; // 启动定时器1
+ 361   3                  for (i = 0; i < 16; i++)
+ 362   3                  {
+ 363   4                      UART_sendbyte(response_array[i]);
+ 364   4                  }
+ 365   3                  if (received_data[1] == 'p')
+ 366   3                  {
+ 367   4                      display_sno(SECOND_ROW);
+ 368   4                      
+ 369   4                      if (received_data[2] == '1')
+ 370   4                          display_kao_qing_shi_bai(THIRD_ROW);
+ 371   4                      if (received_data[2] == '2')
+ 372   4                          display_bu_zai_kao_qing_shi_jian(THIRD_ROW);
+ 373   4                      if (received_data[2] == '3')
+ 374   4                          display_ben_shi_jian_dun_wu_ke(THIRD_ROW);
+ 375   4                      if (received_data[2] == '4')
+ 376   4                          display_ben_jie_ke_yi_da_ka(THIRD_ROW);
+ 377   4                      if (received_data[2] == '0')
+ 378   4                      {
+ 379   5                          dispaly_kao_qing_cheng_gong(THIRD_ROW, received_data[3]);
+ 380   5                      }
+ 381   4                  }
+ 382   3              }
+ 383   2              //
+ 384   2      
+ 385   2              PcdHalt();
+ 386   2          }
+ 387   1      }
+*** WARNING C280 IN LINE 233 OF MAIN.C: 'temp': unreferenced local variable
+ 388          
+ 389          // 系统初始化
+ 390          void InitializeSystem()
+ 391          {
+ 392   1          // I/O 端口配置
+ 393   1          P0M1 = 0x0;
+ 394   1          P0M2 = 0x0;
+ 395   1          P1M1 = 0x0;
+ 396   1          P1M2 = 0x0;
+ 397   1          P3M1 = 0x0;
+ 398   1          P3M2 = 0xFF;
+ 399   1          P0 = 0xFF;
+ 400   1          P1 = 0xFF;
+ 401   1          P3 = 0xFF;
+ 402   1          P2 = 0xFF;
  403   1      
- 404   1          // 中断配置
- 405   1          ES = 1; // 允许串行中断
- 406   1          EA = 1; // 开启总中断
- 407   1      
- 408   1          // 设置标志
- 409   1          TI = 1;
- 410   1      }
- 411          
- 412          // UART接收中断服务函数
- 413          void UART_R() interrupt 4
- 414          {
- 415   1          if (RI == 1)
- 416   1          {                // 如果接收到数据
- 417   2              Char = SBUF; // 读取接收到的数据到Char变量
- 418   2      
- 419   2              RI = 0; // 清除接收标志位
- 420   2              if (Char == '#')
- 421   2              { // 检测到结束符
-C51 COMPILER V9.59.0.0   MAIN                                                              06/26/2024 23:25:41 PAGE 8   
+ 404   1          // 串口配置
+ 405   1          SCON = 0x50; // 串行通信模式1，8位数据，允许接收
+ 406   1      
+ 407   1          // 定时器配置
+ 408   1          TMOD = 0x20; // T1为方式2（8位自动重装）
+ 409   1      
+ 410   1          // 设置定时器初值
+ 411   1          TH1 = 0xFA; // 设置波特率为4800bps
+ 412   1          TL1 = 0xFA;
+ 413   1      
+ 414   1          // 启动定时器1
+ 415   1          TR1 = 1; // 启动定时器1
+ 416   1      
+ 417   1          // 中断配置
+ 418   1          ES = 1; // 允许串行中断
+ 419   1          EA = 1; // 开启总中断
+ 420   1      
+ 421   1          // 设置标志
+C51 COMPILER V9.59.0.0   MAIN                                                              06/27/2024 13:24:13 PAGE 8   
 
- 422   3                  is_read_data = 1;
- 423   3      
- 424   3                  data_index = 0;
- 425   3              }
- 426   2              else
- 427   2              {
- 428   3                  if (data_index <= MAX_LEN - 1)
- 429   3                  { // 防止数组越界
- 430   4                      received_data[data_index++] = Char;
- 431   4                  }
- 432   3              }
- 433   2          }
- 434   1      }
+ 422   1          TI = 1;
+ 423   1      }
+ 424          
+ 425          // UART接收中断服务函数
+ 426          void UART_R() interrupt 4
+ 427          {
+ 428   1          if (RI == 1)
+ 429   1          {                // 如果接收到数据
+ 430   2              Char = SBUF; // 读取接收到的数据到Char变量
+ 431   2      
+ 432   2              RI = 0; // 清除接收标志位
+ 433   2              if (Char == '#')
+ 434   2              { // 检测到结束符
+ 435   3                  is_read_data = 1;
+ 436   3      
+ 437   3                  data_index = 0;
+ 438   3              }
+ 439   2              else
+ 440   2              {
+ 441   3                  if (data_index <= MAX_LEN - 1)
+ 442   3                  { // 防止数组越界
+ 443   4                      received_data[data_index++] = Char;
+ 444   4                  }
+ 445   3              }
+ 446   2          }
+ 447   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1899    ----
+   CODE SIZE        =   2030    ----
    CONSTANT SIZE    =      6    ----
    XDATA SIZE       =    103      16
    PDATA SIZE       =   ----    ----

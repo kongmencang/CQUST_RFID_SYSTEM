@@ -85,7 +85,7 @@ FLAG_THIS_TIME_IS_ATTENDENCE='000011' #这个时间段已经打过卡了
 
 # 课程时间
 COURSE_TIMES = [
-    ("04:00:00", "10:10:00"), #第一节课开始结束时间
+    ("08:00:00", "10:10:00"), #第一节课开始结束时间
     ("10:30:00", "12:10:00"),
     ("14:00:00", "15:40:00"),
     ("16:00:00", "17:40:00"),
@@ -125,10 +125,8 @@ EMAIL_SMTP_PORT =465
 EMAIL_USER1 = "@qq.com"
 EMAIL_PASSWORD1 = ""
 
-EMAIL_USER2 = "@qq.com"
-EMAIL_PASSWORD2 = ""
+EMAIL_USER2 = "@.com"
 
-EMAIL_SEND_NAME="重庆科技大学"
 #邮箱对象
 EMAIL_QQ1 = Email(email_smtp=EMAIL_SMTP, email_port=EMAIL_SMTP_PORT, email_username=EMAIL_USER1,
                 email_password=EMAIL_PASSWORD1, email_send_name=EMAIL_SEND_NAME)

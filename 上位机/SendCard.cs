@@ -82,8 +82,7 @@ namespace CqustRfidSystem
                                     {
                                         string stu_name = userNameJValue2.Value.ToString();
                                         log_text.SelectionColor = Color.Blue;                                  
-                                        log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学生 {stu_name} 绑定卡片 {card_id} 成功" + Environment.NewLine);
-                                       
+                                        log_text.AppendText(DateTime.Now.ToString("[yyyy-MM-dd HH:mm:ss]") + "Server:" + $" 学生 {stu_name} 绑定卡片 {card_id} 成功" + Environment.NewLine);                                 
                                         string send_data = "w" + comboBox_student_id.Text.Trim() + "0000#";
                                         Serialport.send_string_to_byte_data(port, send_data);
                                         ClearDependentComboboxes(comboBox_student_id);
@@ -416,11 +415,8 @@ namespace CqustRfidSystem
                 else if (data.StartsWith("cardid")  && data[15] == '#')
                 {
                   
-
-                    string read_card_id = data.Substring(6, 8);
-                
-                    this.buffer.Clear();
-                    
+                    string read_card_id = data.Substring(6, 8);             
+                    this.buffer.Clear();                 
                     if (read_card_id.Equals(read_card_id_flag)) {
                         return;
                     }

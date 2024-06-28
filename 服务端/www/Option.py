@@ -14,7 +14,6 @@ class Option(object):
             "course_info": SearchInformation.get_course_info,
             "course_name_info": SearchInformation.get_course_name_schedule_id,
             "attendance_info": SearchInformation.get_attendance_info,
-
         }
         # 根据 option 获取相应的函数
         action = actions.get(option, None)

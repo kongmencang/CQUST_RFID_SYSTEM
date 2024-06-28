@@ -112,19 +112,28 @@ void display_sno(uchar row)
 void display_bang_ding_chen_gong(uchar row)
 {
     // °ó¶¨³É¹¦
+	  LCD_write_shu(1, row, 37);
     LCD_write_hanzi(2, row, 10);
     LCD_write_hanzi(4, row, 11);
     LCD_write_hanzi(6, row, 6);
     LCD_write_hanzi(8, row, 7);
+	  LCD_write_shu(10, row, 37);
+	  LCD_write_shu(11, row, 37);
+	  LCD_write_shu(12, row, 37);
 }
 
 void display_kao_qing_shi_bai(uchar row)
 {
     // ¿¼ÇÚÊ§°Ü
+	  LCD_write_shu(1, row, 37);
+	  LCD_write_shu(2, row, 37);
     LCD_write_hanzi(3, row, 0);
     LCD_write_hanzi(5, row, 1);
     LCD_write_hanzi(7, row, 16);
     LCD_write_hanzi(9, row, 17);
+	  LCD_write_shu(11, row, 37);
+	  LCD_write_shu(12, row, 37);
+	
 }
 
 void display_bu_zai_kao_qing_shi_jian(uchar row)
@@ -162,6 +171,7 @@ void display_ben_jie_ke_yi_da_ka(uchar row)
 void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
 {
     // ¿¼ÇÚ£º
+	  LCD_write_shu(1, row, 37);
     LCD_write_hanzi(2, row, 0);
     LCD_write_hanzi(4, row, 1);
     LCD_write_shu(6, row, 36);
@@ -181,6 +191,8 @@ void dispaly_kao_qing_cheng_gong(uchar row, uchar state)
         LCD_write_hanzi(7, row, 30);
         LCD_write_hanzi(9, row, 1);
     }
+		  LCD_write_shu(11, row, 37);
+		  LCD_write_shu(12, row, 37);
 }
 
 
@@ -352,9 +364,10 @@ void main()
             }
             if (received_data[1] == 'p')
             {
-                display_sno(THIRD_ROW);
+                display_sno(SECOND_ROW);
+								
                 if (received_data[2] == '1')
-                    display_kao_qing_shi_bai(THIRD_ROW);
+										display_kao_qing_shi_bai(THIRD_ROW);
                 if (received_data[2] == '2')
                     display_bu_zai_kao_qing_shi_jian(THIRD_ROW);
                 if (received_data[2] == '3')

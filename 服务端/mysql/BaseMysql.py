@@ -114,7 +114,6 @@ class BaseMysql(object):
         columns = ', '.join(insert_data.keys())
         placeholders = ', '.join(['%s' for _ in insert_data])
         values = list(insert_data.values())
-
         # 构建SQL查询
         sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
         return self.base_control_sql(sql,params=values)
